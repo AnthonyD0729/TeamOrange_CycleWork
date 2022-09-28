@@ -21,7 +21,7 @@ b2 = Button(top, text = "Blue",command = blue,activeforeground = "blue",activeba
   
 b3 = Button(top, text = "Green",command = green, activeforeground = "green",activebackground = "black",pady = 10)  
   
-b4 = Button(top, text = "Yellow",command = yellow, activeforeground = "yellow",activebackground = "black",pady = 10)  
+b4 = Button(top, text = "Yellow",command = yellow, activeforeground = "yellow",activebackground = "black",padx =10,pady = 10)  
   
 b1.pack(side = LEFT)  
   
