@@ -7,7 +7,6 @@ top.geometry("200x100")
   
 def red():  
     messagebox.showinfo("Hello", "Red Button clicked")  
-
 def blue():  
     messagebox.showinfo("Hello", "Blue Button clicked")  
 def green():  
@@ -16,13 +15,13 @@ def yellow():
     messagebox.showinfo("Hello", "Yellow Button clicked")  
   
   
-b1 = Button(top,text = "Red",command = red,activeforeground = "red",activebackground = "pink",pady=10)  
+b1 = Button(top,text = "Red",command = red,activeforeground = "red",activebackground = "black",pady=10)  
   
-b2 = Button(top, text = "Blue",command = blue,activeforeground = "blue",activebackground = "pink",pady=10)  
+b2 = Button(top, text = "Blue",command = blue,activeforeground = "blue",activebackground = "black",pady=10)  
   
-b3 = Button(top, text = "Green",command = green, activeforeground = "green",activebackground = "pink",pady = 10)  
+b3 = Button(top, text = "Green",command = green, activeforeground = "green",activebackground = "black",pady = 10)  
   
-b4 = Button(top, text = "Yellow",command = yellow, activeforeground = "yellow",activebackground = "pink",pady = 10)  
+b4 = Button(top, text = "Yellow",command = yellow, activeforeground = "yellow",activebackground = "black",pady = 10)  
   
 b1.pack(side = LEFT)  
   
