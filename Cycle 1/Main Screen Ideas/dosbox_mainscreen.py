@@ -1,6 +1,5 @@
 import pygame, sys
 from button import Button
-pygame.mixer.init()
 pygame.init()
 
 SCREEN = pygame.display.set_mode((1280, 720))
@@ -10,10 +9,6 @@ BG = pygame.image.load("Background.png")
 
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("font.ttf", size)
-
-def play_sound():
-	pygame.mixer.music.load("button_click.mp3")
-	pygame.mixer.music.play(loops=0)
 
 def play():
     while True:
