@@ -33,7 +33,7 @@ def get_font(size): # Returns Press-Start-2P in the desired size
 def play():
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
-        keys = pygame.key.get_pressed()
+
         SCREEN.fill("black")
 
         PLAY_TEXT = get_font(45).render("This is the PLAY screen.", True, "White")
@@ -46,6 +46,40 @@ def play():
         SCREEN.blit(pink, player_rect_pink)
         SCREEN.blit(red, player_rect_red)
         SCREEN.blit(yellow, player_rect_yellow)
+
+        speed_x = 2
+        speed_y = 1
+        direction = 1
+        #implementing random movement
+        if player_rect_blue.right <=80 or player_rect_blue.right >= 1260:
+            direction *= -1
+            speed_x = random.randint(0,2) * direction
+            speed_y = random.randint(0,2) * direction
+
+            if speed_x==0 and speed_y ==0:
+                speed_x = random.randint(2, 4) * direction
+                speed_y = random.randint(2, 4) * direction
+        if player_rect_blue.top <= 100 or player_rect_blue.bottom >= 700:
+            direction *= -1
+            speed_x = random.randint(0, 4) * direction
+            speed_y = random.randint(0, 4) * direction
+ 
+        # Changing the value if speed_x
+        # and speed_y both are zero
+            if speed_x == 0 and speed_y == 0:
+                speed_x = random.randint(2, 8) * direction
+                speed_y = random.randint(2, 8) * direction
+        player_rect_blue.left += speed_x
+        player_rect_blue.top += speed_y
+
+        player_rect_cyan.x +=1
+        if player_rect_cyan.right == 1000:
+            player_rect_cyan.x -=2
+        player_rect_green.x +=1
+        player_rect_orange.x +=1
+        player_rect_pink.x +=1
+        player_rect_red.x +=1
+        player_rect_yellow.x +=1
 
 
         PLAY_BACK = Button(image=None, pos=(640, 460), 
