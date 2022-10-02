@@ -35,9 +35,13 @@ def play():
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
         keys = pygame.key.get_pressed()
         SCREEN.fill("black")
+        speed_x = 1
+        if keys[pygame.K_SPACE]:
+            print('jump')
 
         PLAY_TEXT = get_font(45).render("This is the PLAY screen.", True, "White")
         PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 260))
+
         SCREEN.blit(PLAY_TEXT, PLAY_RECT)
         SCREEN.blit(blue, player_rect_blue)
         SCREEN.blit(cyan, player_rect_cyan)
@@ -47,6 +51,10 @@ def play():
         SCREEN.blit(red, player_rect_red)
         SCREEN.blit(yellow, player_rect_yellow)
 
+        if player_rect_blue.right >=80:
+            player_rect_blue.x += 1
+            if player_rect_blue.right >=1280:
+                player_rect_blue.x -=1
 
         PLAY_BACK = Button(image=None, pos=(640, 460), 
                             text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
@@ -62,6 +70,10 @@ def play():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
+            if event.type == pygame.KEYDOWN:
+                print('key down')
+            if event.type == pygame.KEYUP:
+                print("key up")
 
         pygame.display.update()
 
