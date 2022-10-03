@@ -25,6 +25,7 @@ player_rect_pink = pink.get_rect(midbottom = (80,500))
 player_rect_red = red.get_rect(midbottom = (80,600))
 player_rect_yellow = yellow.get_rect(midbottom = (80,700))
 
+
 #definition for the font
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("font.ttf", size)
