@@ -50,11 +50,14 @@ def play():
         SCREEN.blit(pink, player_rect_pink)
         SCREEN.blit(red, player_rect_red)
         SCREEN.blit(yellow, player_rect_yellow)
-
-        if player_rect_blue.right >=80:
-            player_rect_blue.x += 1
-            if player_rect_blue.right >=1280:
-                player_rect_blue.x -=1
+        direction = 1
+        direction *=-1
+        #if player_rect_blue.right >=80 or player_rect_blue.right >=1280:
+            #player_rect_blue.x = random.randint(0,8) * direction
+            #player_rect_blue.y = random.randint(0.8) * direction
+                #if player_rect_blue.bottom >=720:
+                    #player_rect_blue.x +=1
+                    #player_rect_blue.y = 0
 
         PLAY_BACK = Button(image=None, pos=(640, 460), 
                             text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
