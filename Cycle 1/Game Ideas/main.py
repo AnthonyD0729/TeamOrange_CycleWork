@@ -1,4 +1,3 @@
-import random
 import pygame
 
 from objects import Ball, Line, Circle, Square, get_circle_position, \

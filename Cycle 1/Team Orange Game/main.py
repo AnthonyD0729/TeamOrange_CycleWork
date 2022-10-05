@@ -23,7 +23,7 @@ else:
 	win = pygame.display.set_mode(SCREEN, pygame.NOFRAME | pygame.SCALED | pygame.FULLSCREEN)
 
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 20
 
 # COLORS *********************************************************************
 
@@ -50,8 +50,8 @@ font = "font.ttf"
 
 f = pygame.font.Font(font, 45)
 
-play = BlinkingText(WIDTH//2, HEIGHT-60, 20, "WANT TO PLAY? TAP AWAY", None, WHITE, win)
-
+#play = BlinkingText(WIDTH//2, HEIGHT-60, 20, "WANT TO PLAY? TAP AWAY", None, WHITE, win)
+title_msg = f.render('TEAM ORANGE', 'True', WHITE)
 # Sounds ********************************************************************
 click = pygame.mixer.Sound("click.wav")
 click.set_volume(0.2)
@@ -68,21 +68,30 @@ orange = pygame.image.load("OrangeSprite.png")
 pink = pygame.image.load("PinkSprite.png")
 red = pygame.image.load("RedSprite.png")
 yellow = pygame.image.load("YellowSprite.png")
+play_rect = pygame.image.load("Play Rect.png")
 option_rect = pygame.image.load("Options Rect.png")
+quit_rect = pygame.image.load("Quit Rect.png")
 sound_off_img = pygame.image.load("soundOffBtn.png")
 sound_on_img = pygame.image.load("soundOnBtn.png")
 #Buttons ***********************************************************************
-options_btn = Button(cyan, (100,100), WIDTH// 4 - 18, HEIGHT//2 + 120, hovering_color = 'Green')
+options_btn = Button(option_rect, (200,100), WIDTH//2 -90 , HEIGHT//2 -25 , hovering_color = 'Green')
 sound_btn = Button(sound_on_img, (24, 24), WIDTH - WIDTH // 4 - 18, HEIGHT//2 + 120, hovering_color= "Green")
-play_btn = Button(pink, (100,100), WIDTH //4 -20, HEIGHT//4 +100, hovering_color="Green")
+play_btn = Button(play_rect, (200,100), WIDTH //2 -90, HEIGHT//2 -200, hovering_color="Green")
+#back_btn = Button(back_rect, (100,100), WIDTH//4 -18, HEIGHT// 2 -180, hovering_color = "Green")
+quit_btn = Button(quit_rect, (200,100), WIDTH//2 -90, HEIGHT// 2 +150, hovering_color = "Green")
+
+
+
+
 # Groups *********************************************************************************
 
 RADIUS = 70
-ball = Ball((CENTER[0], CENTER[1]+RADIUS), RADIUS, 90, win)
+#ball = Ball((CENTER[0], CENTER[1]+RADIUS), RADIUS, 90, win)
 # Variables **************************************************************************
 home_page = True
 game_page = False
 options_page = False
+sound_on = True
 running = True
 while running:
 
@@ -99,28 +108,28 @@ while running:
         #if event.type == pygame.MOUSEBUTTONDOWN:
 
         if home_page:
-            play.update()
+            #play.update()
             #win.blit()
-            PLAY_BUTTON = Button(pink, (100,100), x = 640, y=250, 
-                            hovering_color="Black")
-            OPTIONS_BUTTON = Button(option_rect,(100,100), x=640, y=400, 
-                            hovering_color="Black")
-
+            win.blit(title_msg, (575, HEIGHT//2 - 300))
             if play_btn.draw(win):
                 home_page = False
                 game_page = True
             if options_btn.draw(win):
                 home_page= False
                 options_page = True
-
-        if sound_btn.draw(win):
-            sound_on = not sound_on
-            if sound_on:
-                sound_btn.update_image(sound_on_img)
-                pygame.mixer.music.play(loops=-1)
-            else:
-                sound_btn.update_image(sound_off_img)
-                pygame.mixer.music.stop()
+            if quit_btn.draw(win):
+                running = False
+        if options_page:
+            
+            if sound_btn.draw(win):
+                sound_on = not sound_on
+                if sound_on:
+                    sound_btn.update_image(sound_on_img)
+                    pygame.mixer.music.play(loops=-1)
+                else:
+                    sound_btn.update_image(sound_off_img)
+                    pygame.mixer.music.stop()
+                    
     clock.tick(FPS)
     pygame.display.update()
 running = False
