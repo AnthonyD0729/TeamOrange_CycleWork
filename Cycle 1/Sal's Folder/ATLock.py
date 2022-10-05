@@ -2,6 +2,7 @@
 import sys
 import random
 import os 
+from datetime import date
 
 lock_type = 3
 f1, f2 , fn1, fn2, s, s1, s2, lock_code = " "
@@ -103,8 +104,9 @@ def main():
             s = " "
             
     #lock header
+    today = date.today()
     print(f2, ";------------------------------------------------------------------------------")  
-    print(f2, '; ', 'Locked on ', date)   #no_path(base_name(fn1)),  also have no idea what "date" does    #no_path removes path before file name
+    print(f2, '; ', 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
     print(f2, ";------------------------------------------------------------------------------")  
     lock_code = " "
     k = random.randrange(20, 41, 1)
