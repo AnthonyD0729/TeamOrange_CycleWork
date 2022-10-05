@@ -5,8 +5,21 @@ import os
 from datetime import date
 
 lock_type = 3
-f1, f2 , fn1, fn2, s, s1, s2, lock_code = " "
-i, j, k, lock_pos, lock_dat, this_dat = 0 #All integers
+f1 = " "
+f2 = " "
+fn1 = " "
+fn2 = " "
+s = " " 
+s1 = " "
+s2 = " "
+lock_code = " "
+
+i = 0
+j = 0
+k = 0
+lock_pos = 0
+lock_dat = 0
+this_dat = 0 #All integers
 
 def encode(s):
     i, j, k #All ints
