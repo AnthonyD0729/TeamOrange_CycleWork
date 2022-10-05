@@ -1,7 +1,3 @@
-#THIS IS THE ONE!!!
-#hi Kevin!!!!
-# hi SAl
-
 import random
 import pygame
 
@@ -71,13 +67,14 @@ yellow = pygame.image.load("YellowSprite.png")
 play_rect = pygame.image.load("Play Rect.png")
 option_rect = pygame.image.load("Options Rect.png")
 quit_rect = pygame.image.load("Quit Rect.png")
+back_rect = pygame.image.load("Back Rect.png")
 sound_off_img = pygame.image.load("soundOffBtn.png")
 sound_on_img = pygame.image.load("soundOnBtn.png")
 #Buttons ***********************************************************************
 options_btn = Button(option_rect, (200,100), WIDTH//2 -90 , HEIGHT//2 -25 , hovering_color = 'Green')
 sound_btn = Button(sound_on_img, (24, 24), WIDTH - WIDTH // 4 - 18, HEIGHT//2 + 120, hovering_color= "Green")
 play_btn = Button(play_rect, (200,100), WIDTH //2 -90, HEIGHT//2 -200, hovering_color="Green")
-#back_btn = Button(back_rect, (100,100), WIDTH//4 -18, HEIGHT// 2 -180, hovering_color = "Green")
+back_btn = Button(back_rect, (100,100), WIDTH//4 -18, HEIGHT// 2 -180, hovering_color = "Green")
 quit_btn = Button(quit_rect, (200,100), WIDTH//2 -90, HEIGHT// 2 +150, hovering_color = "Green")
 
 
@@ -120,7 +117,9 @@ while running:
             if quit_btn.draw(win):
                 running = False
         if options_page:
-            
+            if back_btn.draw(win):
+                home_page = True
+                options_page = False
             if sound_btn.draw(win):
                 sound_on = not sound_on
                 if sound_on:
