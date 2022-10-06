@@ -66,6 +66,7 @@ quit_rect = pygame.image.load("Quit Rect.png")
 back_rect = pygame.image.load("Back Rect.png")
 sound_off_img = pygame.image.load("soundOffBtn.png")
 sound_on_img = pygame.image.load("soundOnBtn.png")
+
 #Buttons ***********************************************************************
 options_btn = Button(option_rect, (200,100), WIDTH//2 -90 , HEIGHT//2 -25 , hovering_color = 'Green')
 sound_btn = Button(sound_on_img, (24, 24), WIDTH - WIDTH // 4 - 18, HEIGHT//2 + 120, hovering_color= "Green")
