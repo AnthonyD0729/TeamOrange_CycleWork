@@ -122,12 +122,6 @@ def options():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_SOUND.checkForInput(OPTIONS_MOUSE_POS):
-                    music_paused = not music_paused
-                    if music_paused:
-                        pygame.mixer.music.stop()
-                        main_menu()
-                    else:
-                        pygame.mixer.music.unpause()
                         main_menu()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):

@@ -6,17 +6,13 @@ from objects import Ball, Line, Circle, Square, get_circle_position, \
 					BlinkingText
 
 pygame.init()
-SCREEN = WIDTH, HEIGHT = 1280, 720
+info = pygame.display.Info()
+SIZE = WIDTH, HEIGHT = info.current_w, info.current_h
 CENTER = WIDTH //2, HEIGHT // 2
 
-info = pygame.display.Info()
-width = info.current_w
-height = info.current_h
+screen= pygame.Surface((800,600))
 
-if width >= height:
-	win = pygame.display.set_mode(SCREEN, pygame.NOFRAME)
-else:
-	win = pygame.display.set_mode(SCREEN, pygame.NOFRAME | pygame.SCALED | pygame.FULLSCREEN)
+win = pygame.display.set_mode(SIZE)
 
 clock = pygame.time.Clock()
 FPS = 20
@@ -76,6 +72,7 @@ sound_btn = Button(sound_on_img, (24, 24), WIDTH - WIDTH // 4 - 18, HEIGHT//2 + 
 play_btn = Button(play_rect, (200,100), WIDTH //2 -90, HEIGHT//2 -200, hovering_color="Green")
 back_btn = Button(back_rect, (100,100), WIDTH//4 -18, HEIGHT// 2 -180, hovering_color = "Green")
 quit_btn = Button(quit_rect, (200,100), WIDTH//2 -90, HEIGHT// 2 +150, hovering_color = "Green")
+full_screen_btn = Button(quit_rect, (200,100), WIDTH//2 -90, HEIGHT// 2 -150, hovering_color = "Green")
 
 
 
@@ -128,7 +125,10 @@ while running:
                 else:
                     sound_btn.update_image(sound_off_img)
                     pygame.mixer.music.stop()
-                    
+        if game_page:
+            if back_btn.draw(win):
+                home_page = True
+                game_page = False            
     clock.tick(FPS)
     pygame.display.update()
 running = False
