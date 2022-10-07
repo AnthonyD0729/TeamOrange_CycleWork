@@ -144,6 +144,7 @@ while running:
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     running = False
     if play_page:
+        SCREEN.fill("white")
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
         PLAY_BUTTON = Button(play_rect, pos=(640, 250), scale=(200,100), 
                                 text_input="CLICK TO PLAY!", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
@@ -153,6 +154,9 @@ while running:
             button.update(SCREEN)
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if OPTIONS_BACK.checkForInput(PLAY_MOUSE_POS):
+                    play_page = False
+                    home_page = True                
                 if PLAY_BUTTON.checkForInput(PLAY_MOUSE_POS):
                     play_page = False
                     game_page = True
