@@ -1,10 +1,13 @@
 import pygame
 pygame.mixer.init
 class Button():
-	def __init__(self, image, pos, text_input, font, base_color, hovering_color):
-		self.image = image
+	def __init__(self, img, pos, scale, text_input, font, base_color, hovering_color):
+		super(Button, self).__init__()
+		
 		self.x_pos = pos[0]
 		self.y_pos = pos[1]
+		self.scale = scale
+		self.image = pygame.transform.scale(img, self.scale)
 		self.font = font
 		self.base_color, self.hovering_color = base_color, hovering_color
 		self.text_input = text_input
@@ -23,6 +26,9 @@ class Button():
 		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
 				return True
 		return False
+	
+	def update_image(self, img):
+		self.image = pygame.transform.scale(img, self.scale)
 	
 	def changeColor(self, position):
 		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
