@@ -145,7 +145,7 @@ def main():
         print(" ", str.upper(s))
     
     while not f1:
-        # readline(f1, s1)
+        f1.readline(s1)
         s = " "
         s1 = str.strip(str.upper(s)) 
         print(s, s1)
