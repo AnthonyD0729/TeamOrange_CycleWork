@@ -119,7 +119,7 @@ def main():
     #lock header
     today = date.today()
     print(f2, ";------------------------------------------------------------------------------")  
-    print(f2, '; ', 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
+    print(f2, '; ', f2.splitText(os.basename(fn1)), 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
     print(f2, ";------------------------------------------------------------------------------")  
     lock_code = " "
     k = random.randrange(20, 41, 1)
