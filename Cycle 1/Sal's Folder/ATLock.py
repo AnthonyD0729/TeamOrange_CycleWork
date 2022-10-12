@@ -54,7 +54,7 @@ def prepare(s, s1):
     s2 = " "  #Remove excess space
     i = 1
     for i in len(s1):
-        if(s1[i] != " " or s1[i] != "#8" or s1[i] != "#9" or s1[i] != "#10" or s1[i] != ','):  #Condition is not (s1[i] in [' ',#8,#9,#10,','])
+        if(s1.isspace() == False and s1[i] != ','):  #Condition is not (s1[i] in [' ',#8,#9,#10,','])
             s2 = s2 + s1[i]
         elif(s2 != " "):
             s = s + s2 + " "
