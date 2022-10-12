@@ -109,27 +109,11 @@ while running:
             if play_btn.draw(win):
                 home_page = False
                 game_page = True
-            if options_btn.draw(win):
-                home_page= False
-                options_page = True
-            if quit_btn.draw(win):
-                running = False
-        if options_page:
-            if back_btn.draw(win):
-                home_page = True
-                options_page = False
-            if sound_btn.draw(win):
-                sound_on = not sound_on
-                if sound_on:
-                    sound_btn.update_image(sound_on_img)
-                    pygame.mixer.music.play(loops=-1)
-                else:
-                    sound_btn.update_image(sound_off_img)
-                    pygame.mixer.music.stop()
         if game_page:
             if back_btn.draw(win):
                 home_page = True
-                game_page = False            
+                game_page = False   
+            #PUT CODE HERE BUT LEAVE BACK BUTTON FOR EMERGENCY HEHE         
     clock.tick(FPS)
     pygame.display.update()
 running = False
