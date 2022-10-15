@@ -1,5 +1,6 @@
 import pygame,sys
 from button import Button
+import pygame_menu
 from util import load_save, reset_keys
 from controls import Controls_Handler
 pygame.init()
@@ -68,7 +69,7 @@ PLAY_BUTTON = Button(play_rect, pos=(640, 250), scale=(200,100),
 def options():
     sound_on = True
     running = True
-    actions = {"Left": False, "Right": False, "Up": False, "Down": False, "Start": False, "Action1": False, "Sound": False}
+    actions = {"Left": False, "Right": False, "Up": False, "Down": False, "Start": False, "Action1": False}
     save = load_save()
     control_handler = Controls_Handler(save)
     while running:
@@ -80,8 +81,8 @@ def options():
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
         SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
-        OPTIONS_BACK = Button(img=back_rect, pos=(1200, 660), scale=(200,100), text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
-        SOUND_BUTTON = Button(img=sound_on_img, pos=(1200,500), scale=(200,100), text_input="Sound?", font=get_font(75), base_color= "Black", hovering_color="Green")
+        OPTIONS_BACK = Button(img=back_rect, pos=(1100, 660), scale=(200,100), text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
+        SOUND_BUTTON = Button(img=sound_on_img, pos=(1100,500), scale=(200,100), text_input="Sound?", font=get_font(75), base_color= "Black", hovering_color="Green")
 
         OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
         SOUND_BUTTON.changeColor(OPTIONS_MOUSE_POS)
@@ -108,8 +109,6 @@ def options():
                     actions['Start'] = True
                 if event.key == control_handler.controls['Action1']:
                     actions['Action1'] = True
-                if event.key == control_handler.controls['Sound']:
-                    actions['Sound']=True
 
             if event.type == pygame.KEYUP:
                 if event.key == control_handler.controls['Left']:
@@ -124,8 +123,6 @@ def options():
                     actions['Start'] = False
                 if event.key == control_handler.controls['Action1']:
                     actions['Action1'] = False
-                if event.key == control_handler.controls['Sound']:
-                    actions['Sound']=False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
