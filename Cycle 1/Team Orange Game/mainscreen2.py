@@ -40,7 +40,7 @@ def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("images/RetroFont.ttf", size)
 
 font = pygame.font.Font('images/font.ttf',70)
-background_music = pygame.mixer.music.load("images/music3.wav")
+background_music = pygame.mixer.music.load("images/music4.wav")
 
 # Images **********************************************************************
 BG = pygame.image.load("images/Background.png")
