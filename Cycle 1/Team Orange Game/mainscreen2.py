@@ -1,7 +1,7 @@
 #imports needed**********************************************************
 import pygame,sys
 from button import Button
-import pygame_menu
+#import pygame_menu
 from util import load_save, reset_keys
 from controls import Controls_Handler
 
@@ -20,6 +20,7 @@ play_page = False
 home_page = True
 game_page = False
 options_page = False
+pregamescreen = False
 running = True
 # Colors **********************************************************************************
 RED = (255,0,0)
@@ -89,10 +90,10 @@ RESUME_BUTTON = Button(resume_img, pos= (640,360), text_input = None, font=get_f
 VIDEO_BUTTON = Button(play_rect, pos=(640, 250),
                         text_input="VIDEO OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
 
-KEYS_BUTTON = Button(play_rect, pos=(640, 250),
+KEYS_BUTTON = Button(back_rect, pos=(640, 250),
                         text_input="KEYBOARD OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
 
-PAUSE_BUTTON = Button(pause_img, pos=(1100,0), text_input=None, font=get_font(75), base_color="Black",hovering_color="Green")
+PAUSE_BUTTON = Button(back_rect, pos=(1100,0), text_input=None, font=get_font(75), base_color="Black",hovering_color="Green")
 # Defintions ***************************************************************************************************************************************
 def draw_text(text,font, text_col,x,y):
     img = font.render(text,True, text_col)
@@ -135,27 +136,16 @@ def options():
                         pygame .mixer.music.stop()
         pygame.display.update()
 
-def pregamescreen():
-    run = True
-    while run:
-        SCREEN.fill((52, 78, 91))
-        PREGAME_TEXT = get_font(45).render("Press Enter to Play", True, "White")
-        PREGAME_RECT = PREGAME_TEXT.get_rect(center=(640, 260))
-        SCREEN.blit(PREGAME_TEXT, PREGAME_RECT)
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    return
-            if event.type == pygame.QUIT:
-                run = False
-
-        pygame.display.update()
-
 def pausescreen():
     sound_on =True
     game_paused = True
     run = True
     while run:
+        VIDEO_BUTTON = Button(play_rect, pos=(640, 250),
+                        text_input="VIDEO OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
+
+        KEYS_BUTTON = Button(back_rect, pos=(640, 250),
+                        text_input="KEYBOARD OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
         PAUSE_MOUSE_POS = pygame.mouse.get_pos()
 
         SCREEN.fill('white')
@@ -184,11 +174,11 @@ def pausescreen():
                         if sound_on:
                             pygame.mixer.music.play(loops=-1)
                         else:
-                            pygame .mixer.music.stop()
-        if VIDEO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-            print("Video Settings")
-        if KEYS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-            print("Change Key Bindings")
+                            pygame.mixer.music.stop()
+                    if VIDEO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        print("Video Settings")
+                    if KEYS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        print("Change Key Bindings")
 
         pygame.display.update()
 
@@ -222,12 +212,33 @@ while running:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if GAME_BUTTON.checkForInput(MENU_MOUSE_POS):
                     home_page = False
-                    pregamescreen()
-                    play_page = True
+                    pregamescreen = True
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     running = False
+    
+    if pregamescreen:
+        SCREEN.fill("ORANGE")
+
+        PREGAME_TEXT = get_font(80).render("PRESS SPACE TO PLAY", True, "WHITE")
+        PREGAME_RECT = PREGAME_TEXT.get_rect(center=(640, 300))
+        
+        SCREEN.blit(PREGAME_TEXT, PREGAME_RECT)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pregamescreen = False
+                    play_page = True
+
+        pygame.display.update()
+
+
+    
     if play_page:
         SCREEN.blit(BG2, (0,0))
         
