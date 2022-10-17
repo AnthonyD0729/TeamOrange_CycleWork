@@ -163,6 +163,7 @@ def pausescreen():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                    exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
