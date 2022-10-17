@@ -33,15 +33,6 @@ class Controls_Handler():
                 write_save(self.save_file)
             else: 
                 self.selected = True
-        if actions['Sound']:
-            if self.cursor_dict[self.curr_index] == "Set":
-                self.controls = self.save_file["controls]["][str(self.curr_block)]
-                self.save_file["current_profile"] = self.curr_block
-                write_save(self.save_file)
-                pygame.mixer.music.play(loops=-1)
-            else:
-                pygame.mixer.music.stop()
-                self.selected = True
 
 
     def set_new_control(self):
