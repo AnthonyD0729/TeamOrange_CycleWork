@@ -13,8 +13,6 @@
 
 import pygame
 import math
-import random
-import sys
 from pygame.locals import *
 
 vec = pygame.math.Vector2
@@ -27,25 +25,29 @@ FPS = 60
 tickrate = pygame.time.Clock()
 
 # Sets screen size
-screenWidth = 800
+screenWidth = 600
 screenHeight = 600
 
 # Displays the window
 screen = pygame.display.set_mode((screenWidth,screenHeight), 0, 32)
-#pygame.display.set_icon(pygame.image.load("OrangeIcon.png"))
+pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
 pygame.display.set_caption("vector")
 BLACK = (0,0,0)
-RED = (255,0,0)
+
+speed = 1
+angle = 45
 
 # Tank class
 class Tank(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("OrangeSprite.png")
+        self.image = pygame.image.load("images/OrangeSprite.png")
         self.position = vec(screenWidth/2, screenHeight/2)
         self.rect = self.image.get_rect(center=self.position)
-        self.vel = vec(1,1)
-        self.angle = 0
+        self.dir = angle
+        self.vel = vec( math.cos(math.radians(self.dir))*speed,
+                        math.sin(math.radians(self.dir))*speed)
+
 
     #maybe a get_vec function that creates a vector based on angle+speed
 
@@ -53,6 +55,7 @@ class Tank(pygame.sprite.Sprite):
     def update(self):
         self.position += self.vel
         self.rect.center = self.position
+
 
 
 all_sprites = pygame.sprite.Group()
