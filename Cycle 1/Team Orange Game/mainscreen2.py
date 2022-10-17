@@ -40,7 +40,7 @@ def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("images/RetroFont.ttf", size)
 
 font = pygame.font.Font('images/font.ttf',70)
-background_music = pygame.mixer.music.load("images/music2.mp3")
+background_music = pygame.mixer.music.load("images/music3.wav")
 
 # Images **********************************************************************
 BG = pygame.image.load("images/Background.png")
@@ -245,22 +245,16 @@ while running:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
         MENU_TEXT = get_font(100).render("TEAM ORANGE", True, "white")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
-
-        PAUSE_BUTTON = Button(pause_img, pos=(1215,68), text_input=None, font=get_font(75), base_color="White",hovering_color="Green")
+        MENU_RECT = MENU_TEXT.get_rect(center=(640, 105))
 
         SCREEN.blit(MENU_TEXT, MENU_RECT)
-
-        for button in [PAUSE_BUTTON]:
-            button.changeColor(MENU_MOUSE_POS)
-            button.update(SCREEN)
 
         for event in pygame.event.get():
             if event.type== pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if PAUSE_BUTTON.checkForInput(PLAY_MOUSE_POS):
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
                     pausescreen()
         
 
