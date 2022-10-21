@@ -9,8 +9,10 @@ class Controls_Handler():
         self.setup()
 
     def update(self, actions):
-        if self.selected: self.set_new_control()
-        else: self.navigate_menu(actions)
+        if self.selected: 
+            self.set_new_control()
+        else: 
+            self.navigate_menu(actions)
 
     def render(self, surface):
         self.draw_text(surface, "Control Profile " + str(self.curr_block+1) , 20, pygame.Color((0,0,0)), 480 / 2, 270/8)

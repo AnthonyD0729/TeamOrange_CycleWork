@@ -22,6 +22,8 @@ game_page = False
 options_page = False
 pregamescreen = False
 running = True
+save = load_save()
+control_handler = Controls_Handler(save)
 # Colors **********************************************************************************
 RED = (255,0,0)
 GREEN = (0,0,255)
@@ -79,22 +81,24 @@ SOUND_BUTTON = Button(sound_on_img, pos=(100,100), text_input="Sound?", font=get
 PLAY_BUTTON = Button(play_rect, pos=(640, 250),
                         text_input="PLAY", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
 
-BACK_BUTTON = Button(None, pos=(1100, 660), text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
+BACK_BUTTON = Button(None, pos=(1100, 660), text_input="BACK", font=get_font(50), base_color="Black", hovering_color="Green")
 
-SOUND_BUTTON = Button(sound_on_img, pos=(1100,500), text_input="Sound?", font=get_font(75), base_color= "Black", hovering_color="Green")
+SOUND_BUTTON = Button(sound_on_img, pos=(1100,500), text_input="SOUND", font=get_font(50), base_color= "Black", hovering_color="Green")
 
-CONTROLS_BUTTON = Button(blue, pos=(640,360), text_input=("CONTROLS"),font= get_font(75), base_color="Black", hovering_color="Green")
+CONTROLS_BUTTON = Button(None, pos=(1100,180), text_input=("CONTROLS"),font= get_font(50), base_color="Black", hovering_color="Green")
 
-RESUME_BUTTON = Button(resume_img, pos= (640,360), text_input = None, font=get_font(75), base_color="Black", hovering_color="Green")
+RESUME_BUTTON = Button(None, pos= (1100,660), text_input = ("RESUME"), font=get_font(75), base_color="Black", hovering_color="Green")
 
-VIDEO_BUTTON = Button(play_rect, pos=(640, 250),
-                        text_input="VIDEO OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
-
-KEYS_BUTTON = Button(back_rect, pos=(640, 250),
-                        text_input="KEYBOARD OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
+VIDEO_BUTTON = Button(None, pos=(1100, 340),
+                        text_input="VIDEO", font=get_font(50), base_color="Black", hovering_color="Black")
 
 PAUSE_BUTTON = Button(back_rect, pos=(1100,0), text_input=None, font=get_font(75), base_color="Black",hovering_color="Green")
+
+FULLSCREEN_BUTTON = Button(None, pos=(175,180), text_input="Fullscreen", font=get_font(50), base_color="Black", hovering_color="Green")
+
+INFO_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
 # Defintions ***************************************************************************************************************************************
+
 def draw_text(text,font, text_col,x,y):
     img = font.render(text,True, text_col)
     SCREEN.blit(img,(x,y))
@@ -138,50 +142,122 @@ def options():
 
 def pausescreen():
     sound_on =True
-    game_paused = True
     run = True
     while run:
-        VIDEO_BUTTON = Button(play_rect, pos=(640, 250),
-                        text_input="VIDEO OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
-
-        KEYS_BUTTON = Button(back_rect, pos=(640, 250),
-                        text_input="KEYBOARD OPTIONS", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
         PAUSE_MOUSE_POS = pygame.mouse.get_pos()
 
         SCREEN.fill('white')
 
         OPTIONS_TEXT = get_font(80).render("GAME PAUSED", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 25))
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 30))
         SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
-        VIDEO_BUTTON.changeColor(PAUSE_MOUSE_POS)
-        KEYS_BUTTON.changeColor(PAUSE_MOUSE_POS)
-        for button in [SOUND_BUTTON, BACK_BUTTON]:
+        RESUME_BUTTON.changeColor(PAUSE_MOUSE_POS)
+        SOUND_BUTTON.changeColor(PAUSE_MOUSE_POS)
+        CONTROLS_BUTTON.changeColor(PAUSE_MOUSE_POS)
+        FULLSCREEN_BUTTON.changeColor(PAUSE_MOUSE_POS)
+        INFO_BUTTON.changeColor(PAUSE_MOUSE_POS)
+        for button in [SOUND_BUTTON, RESUME_BUTTON, VIDEO_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
             button.changeColor(PAUSE_MOUSE_POS)
-            button.update(SCREEN)        
+            button.update(SCREEN)
+        RESUME_BUTTON.update(SCREEN)
+
         #check if game is paused
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     run = False
-                    exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        run = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if BACK_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                        return
-                    if SOUND_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                        sound_on = not sound_on
-                        if sound_on:
-                            pygame.mixer.music.play(loops=-1)
-                        else:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if RESUME_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    return
+                if SOUND_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    sound_on = not sound_on
+                    if sound_on:
+                        pygame.mixer.music.play(loops=-1)
+                    else:
                             pygame.mixer.music.stop()
-                    if VIDEO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                        print("Video Settings")
-                    if KEYS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                        print("Change Key Bindings")
+                if VIDEO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    print("Video Settings")
+                if CONTROLS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    controlspage()
+                if FULLSCREEN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    return
+                if INFO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    infopage()
 
         pygame.display.update()
+
+def controlspage():
+    save = load_save()
+    control_handler = Controls_Handler(save)
+    actions = {"Left": False, "Right": False, "Up": False, "Down": False, "Start": False, "Action1": False}
+    running = True
+    while running:
+    ################################# CHECK PLAYER INPUT #################################
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                if event.key == control_handler.controls['Left']:
+                    actions['Left'] = True
+                if event.key == control_handler.controls['Right']:
+                    actions['Right'] = True
+                if event.key == control_handler.controls['Up']:
+                    actions['Up'] = True
+                if event.key == control_handler.controls['Down']:
+                    actions['Down'] = True
+                if event.key == control_handler.controls['Start']:
+                    actions['Start'] = True
+                if event.key == control_handler.controls['Action1']:
+                    actions['Action1'] = True
+
+            if event.type == pygame.KEYUP:
+                if event.key == control_handler.controls['Left']:
+                    actions['Left'] = False
+                if event.key == control_handler.controls['Right']:
+                    actions['Right'] = False
+                if event.key == control_handler.controls['Up']:
+                    actions['Up'] = False
+                if event.key == control_handler.controls['Down']:
+                    actions['Down'] = False
+                if event.key == control_handler.controls['Start']:
+                    actions['Start'] = False
+                if event.key == control_handler.controls['Action1']:
+                    actions['Action1'] = False
+
+        ################################# UPDATE THE GAME #################################
+        control_handler.update(actions)
+        ################################# RENDER WINDOW AND DISPLAY #################################
+        canvas.fill(("white"))
+        control_handler.render(canvas)
+        SCREEN.blit(pygame.transform.scale(canvas, (SCREEN_WIDTH,SCREEN_HEIGHT) ), (0,0))
+        pygame.display.update()
+        reset_keys(actions)
+
+def infopage():
+    run = True
+    while run:
+
+        SCREEN.fill('Orange')
+
+        INFO_TEXT = get_font(80).render("GAME CREATED BY", True, "Black")
+        INFO_RECT = INFO_TEXT.get_rect(center=(640, 30))
+        SCREEN.blit(INFO_TEXT, INFO_RECT)
+
+        INFO_TEXT = get_font(30).render("Anthony Deyoe, Kevin Malone, Sal Mecca, Isaac Otto", True, "Black")
+        INFO_RECT = INFO_TEXT.get_rect(center=(640, 360))
+        SCREEN.blit(INFO_TEXT, INFO_RECT)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+
+        pygame.display.update()
+
 
 # MAIN ****************************************************************************************
 while running:
