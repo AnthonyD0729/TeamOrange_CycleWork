@@ -22,6 +22,7 @@ class Button():
 
 	def checkForInput(self, position):
 		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+				#pygame.mixer.music.play("images/click.wav")
 				return True
 		return False
 	
