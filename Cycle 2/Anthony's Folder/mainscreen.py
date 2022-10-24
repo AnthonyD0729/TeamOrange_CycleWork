@@ -1,6 +1,4 @@
 #imports needed**********************************************************
-from curses import KEY_DOWN
-from re import L
 import pygame,sys
 from button import Button
 #import pygame_menu
