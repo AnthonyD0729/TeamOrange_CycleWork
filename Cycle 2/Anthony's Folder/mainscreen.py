@@ -8,6 +8,7 @@ from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
+import tkinter
 import random
 #allows us to use pygame features
 pygame.init()
@@ -55,7 +56,7 @@ background_music = pygame.mixer.music.load("images/music4.wav")
 # Images **********************************************************************
 background = pygame.image.load("images/Background.png")
 #BG2 = pygame.image.load("images/Background2.png")
-bg = pygame.image.load("images/newbg.png")
+bg = pygame.image.load("images/sea7min.png").convert()
 bgX=0
 bgX2 = bg.get_width()
 blue = pygame.image.load("images/BlueSprite.png")
@@ -352,14 +353,27 @@ def easyscreen():
     clock.tick(FPS)
 
 def mediumscreen():
-    running = True
-    while running:
-        screen.fill('black')
+    #running = True
+    screen.fill('black')
+    scroll = 0
+    tiles = math.ceil(SCREEN_WIDTH / bg.get_width()) + 1
+    while 1:
+        clock.tick(33)
+        
+        i=0
+        while (i < tiles):
+            screen.blit(bg, (bg.get_width()*i 
+                            + scroll, 0))
+            i+=1
+        scroll =-6
+        if abs(scroll) > bg.get_width():
+            scroll=0
+        
         for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
+            if event.type == pygame.QUIT:     
                 pygame.quit() 
                 quit()
+        
         pygame.display.update()
 
 def hardscreen():
