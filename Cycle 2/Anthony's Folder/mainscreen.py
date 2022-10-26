@@ -235,10 +235,39 @@ def controlspage():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                if event.key == control_handler.controls['Left']:
+                    actions['Left'] = True
+                if event.key == control_handler.controls['Right']:
+                    actions['Right'] = True
+                if event.key == control_handler.controls['Up']:
+                    actions['Up'] = True
+                if event.key == control_handler.controls['Down']:
+                    actions['Down'] = True
+                if event.key == control_handler.controls['Start']:
+                    actions['Start'] = True
+                if event.key == control_handler.controls['Action1']:
+                    actions['Action 1'] = True
+
+            if event.type == pygame.KEYUP:
+                if event.key == control_handler.controls['Left']:
+                    actions['Left'] = False
+                if event.key == control_handler.controls['Right']:
+                    actions['Right'] = False
+                if event.key == control_handler.controls['Up']:
+                    actions['Up'] = False
+                if event.key == control_handler.controls['Down']:
+                    actions['Down'] = False
+                if event.key == control_handler.controls['Start']:
+                    actions['Start'] = False
+                if event.key == control_handler.controls['Action1']:
+                    actions['Action 1'] = False
+        
+        control_handler.update(actions)
         canvas.fill((135,206,235))
         control_handler.render(canvas)
         screen.blit(pygame.transform.scale(canvas, (SCREEN_WIDTH*2.7, SCREEN_HEIGHT*2.7)), (0,0))
         pygame.display.update()
+        reset_keys(actions)
 
 def infopage():
     run = True
