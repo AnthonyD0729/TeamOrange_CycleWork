@@ -80,11 +80,11 @@ def main():
     lock_pos = 0
     lock_dat = 0
 
-    if(len(sys.argv) < 1 or len(sys.argv) > 2):  
-        f1.write("Usage: ATRLOCK <robot[.at2]> [locked[.atl]]")     #btrim removes white space in front and back of string
-    
     f1 = open(fn1, "r")
     f2 = open(fn2, "w")
+    
+    if(len(sys.argv) < 1 or len(sys.argv) > 2):  
+        f1.write("Usage: ATRLOCK <robot[.at2]> [locked[.atl]]")     #btrim removes white space in front and back of string
     
     fn1 = str.strip(str.upper(sys.argv[1]))  
         
