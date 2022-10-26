@@ -1,7 +1,7 @@
 #New ATLock File
 import sys
 import random
-import os.path 
+import os.path as os
 from datetime import date
 
 lock_type = 3
@@ -83,40 +83,43 @@ def main():
     if(len(sys.argv) < 1 or len(sys.argv) > 2):  
         f1.write("Usage: ATRLOCK <robot[.at2]> [locked[.atl]]")     #btrim removes white space in front and back of string
     
-    fn1 = str.strip(fn1.upper(sys.argv[1]))  
+    f1 = open(fn1, "r")
+    f2 = open(fn2, "w")
+    
+    fn1 = str.strip(str.upper(sys.argv[1]))  
         
-    if(fn1 == os.fn1.basename(fn1)):   #base_name grabs the part of a file before the .atr portion
+    if(fn1 == os.basename(fn1)):   #base_name grabs the part of a file before the .atr portion
         fn1 = fn1 + ".AT2"  
     
     if(fn1 == None):
         print("Robot ", fn1, " not found!")
-        exit()
+        exit(0)
     
     if(len(sys.argv) == 2):
         fn2 = str.strip(str.upper(sys.argv[2]))
     else:
-        fn2 = os.fn2.basename(fn1) + ".ATL"
+        fn2 = os.basename(fn1) + ".ATL"
         
-    if(fn2 == os.fn2.basename(fn2)):
+    if(fn2 == os.basename(fn2)):
         fn2 = fn2 + ".ATL"
     
     if(fn2 != False):
-        fn2.write("Output name ", fn1, " not valid!")
+        print("Output name ", fn1, " not valid!")
+        exit(0)
         
     if(fn1 == fn2):
         print("Filenames cannot be the same!")
         exit(0)
         
-    f1 = open(fn1, "r")
-    f2 = open(fn2, "w")
+
     
     #Copying comment header
     
-    fn2.write(";------------------------------------------------------------------------------")
+    f2.write(";------------------------------------------------------------------------------")
     s = " "
     
     while s == " " and not f1:
-        f1.readline(s)
+        s = f1.readline()
         s = str.strip(s)       
         if(s[1] == ';'):
             f2.write(s)
@@ -124,22 +127,23 @@ def main():
             
     #lock header
     today = date.today()
+    barePath = os.split(os.basename(fn1))
     f2.write(";------------------------------------------------------------------------------")  
-    f2.write('; ', f2.splitText(os.basename(fn1)), 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
+    f2.write('; ', barePath[1], 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
     f2.write(";------------------------------------------------------------------------------")  
     lock_code = " "
     k = random.randrange(20, 41, 1)
     
     i = 1
     for i in k:
-        lock_code = lock_code + chr(random.range(65, 97, 1))
+        lock_code = lock_code + chr(random.randrange(65, 97, 1))
     
     f2.write("#Lock", lock_type, " ", lock_code)
     
     #decode lock code
     i = 1
     for i in len(lock_code):
-        lock_code[i] = chr(lock_code[i]- 65)
+        lock_code[i] = chr(ord(lock_code[i]) - 65)
         
     f2.write("Encoding \"" , fn1, "\"...")
     
@@ -151,7 +155,7 @@ def main():
         write_line(" ", str.upper(s))
     
     while not f1:
-        f1.readline(s1)
+        s1 = f1.readline()
         s = " "
         s1 = str.strip(str.upper(s)) 
         write_line(s, s1)
