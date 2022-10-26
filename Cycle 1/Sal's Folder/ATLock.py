@@ -79,7 +79,7 @@ def write_line(s, s1):
 def main():
     lock_pos = 0
     lock_dat = 0
-    
+
     if(len(sys.argv) < 1 or len(sys.argv) > 2):  
         f1.write("Usage: ATRLOCK <robot[.at2]> [locked[.atl]]")     #btrim removes white space in front and back of string
     
@@ -112,20 +112,21 @@ def main():
     
     #Copying comment header
     
-    print(fn2, ";------------------------------------------------------------------------------")
+    fn2.write(";------------------------------------------------------------------------------")
     s = " "
-    f1.readline(s)
+    
     while s == " " and not f1:
+        f1.readline(s)
         s = str.strip(s)       
         if(s[1] == ';'):
-            print(f2, s)
+            f2.write(s)
             s = " "
             
     #lock header
     today = date.today()
-    print(f2, ";------------------------------------------------------------------------------")  
-    print(f2, '; ', f2.splitText(os.basename(fn1)), 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
-    print(f2, ";------------------------------------------------------------------------------")  
+    f2.write(";------------------------------------------------------------------------------")  
+    f2.write('; ', f2.splitText(os.basename(fn1)), 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
+    f2.write(";------------------------------------------------------------------------------")  
     lock_code = " "
     k = random.randrange(20, 41, 1)
     
@@ -133,29 +134,31 @@ def main():
     for i in k:
         lock_code = lock_code + chr(random.range(65, 97, 1))
     
-    print(f2, "#Lock", lock_type, " ", lock_code)
+    f2.write("#Lock", lock_type, " ", lock_code)
     
     #decode lock code
     i = 1
     for i in len(lock_code):
         lock_code[i] = chr(lock_code[i]- 65)
         
-    print("Encoding \"" , fn1, "\"...")
+    f2.write("Encoding \"" , fn1, "\"...")
     
     #encode robot
     
     s = str.strip(s)     
     
     if(len(s) > 0):
-        print(" ", str.upper(s))
+        write_line(" ", str.upper(s))
     
     while not f1:
         f1.readline(s1)
         s = " "
         s1 = str.strip(str.upper(s)) 
-        print(s, s1)
+        write_line(s, s1)
         
-print("Done. Used LOCK Format #", lock_type,".")
-print("Only ATR2 v2.08 or later can decode.")
-print("LOCKed robot saved as \"", fn2, "\"")
-    
+    f2.write("Done. Used LOCK Format #", lock_type,".")
+    f2.write("Only ATR2 v2.08 or later can decode.")
+    f2.write("LOCKed robot saved as \"", fn2, "\"")
+
+    f1.close()
+    f2.close()
