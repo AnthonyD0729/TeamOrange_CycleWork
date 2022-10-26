@@ -2,16 +2,21 @@
 import pygame,sys
 from button import Button
 #import pygame_menu
+import math
+from pygame.locals import *
+from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
-
+from tank import Tank
+import tkinter
+import random
 #allows us to use pygame features
 pygame.init()
 
 #Game variables *****************************************************************
-#SCREEN_WIDTH = 1280
-#SCREEN_HEIGHT =720
-screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT =720
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Menu")
 canvas = pygame.Surface((480,270))
 clock = pygame.time.Clock()
@@ -27,7 +32,7 @@ running = True
 save = load_save()
 control_handler = Controls_Handler(save)
 monitor_size = [pygame.display.Info().current_w, pygame.display.Info().current_h]
-
+vec = pygame.math.Vector2
 # Colors **********************************************************************************
 RED = (255,0,0)
 GREEN = (0,0,255)
@@ -49,8 +54,11 @@ font = pygame.font.Font('images/font.ttf',70)
 background_music = pygame.mixer.music.load("images/music4.wav")
 
 # Images **********************************************************************
-BG = pygame.image.load("images/Background.png")
-BG2 = pygame.image.load("images/Background2.png")
+background = pygame.image.load("images/Background.png")
+#BG2 = pygame.image.load("images/Background2.png")
+bg = pygame.image.load("images/sea7min.png").convert()
+bgX=0
+bgX2 = bg.get_width()
 blue = pygame.image.load("images/BlueSprite.png")
 cyan = pygame.image.load("images/CyanSprite.png")
 green = pygame.image.load("images/GreenSprite.png")
@@ -101,6 +109,13 @@ PAUSE_BUTTON = Button(back_rect, pos=(1100,0), text_input=None, font=get_font(75
 FULLSCREEN_BUTTON = Button(None, pos=(175,180), text_input="Fullscreen", font=get_font(50), base_color="Black", hovering_color="Green")
 
 INFO_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
+EASY_BUTTON = Button(None, pos=(175,340), text_input="EASY", font=get_font(50), base_color="Black", hovering_color="Green")
+
+MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(50), base_color="Black", hovering_color="Green")
+
+HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
+
 # Defintions ***************************************************************************************************************************************
 
 def draw_text(text,font, text_col,x,y):
@@ -115,14 +130,17 @@ def options():
 
         screen.fill("white")
 
-        OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
+        OPTIONS_TEXT = get_font(45).render("OPTIONS SCREEN", True, "Black")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 30))
         screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
         BACK_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         SOUND_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         CONTROLS_BUTTON.changeColor(OPTIONS_MOUSE_POS)
-        for button in [SOUND_BUTTON]:
+        FULLSCREEN_BUTTON.changeColor(OPTIONS_MOUSE_POS)
+        INFO_BUTTON.changeColor(OPTIONS_MOUSE_POS)
+        CONTROLS_BUTTON.changeColor(OPTIONS_MOUSE_POS)
+        for button in [SOUND_BUTTON, VIDEO_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
             button.changeColor(OPTIONS_MOUSE_POS)
             button.update(screen)
         BACK_BUTTON.update(screen)
@@ -142,6 +160,14 @@ def options():
                         pygame.mixer.music.play(loops=-1)
                     else:
                         pygame .mixer.music.stop()
+                if VIDEO_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+                    print("Video Settings")
+                if CONTROLS_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+                    controlspage()
+                if FULLSCREEN_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+                    fullscreen_option()
+                if INFO_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+                    infopage()
         pygame.display.update()
 
 def pausescreen():
@@ -260,6 +286,9 @@ def infopage():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
 
         pygame.display.update()
 
@@ -296,14 +325,75 @@ def fullscreen_option():
     
         pygame.display.update()
         clock.tick(60)
+
+def easyscreen():
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(Tank())
+    angle = 45
+    running = True
+    while running:
+        screen.fill('black')
+        #screen.blit(bg, (0,0))
+        all_sprites.update()
+        Tank().boundarycheck()
+        all_sprites.draw(screen)
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT: 
+                running = False    
+                pygame.quit() 
+                quit()
+        pygame.display.update()
+        rand = random.randint(-6, 6)
+        angle += rand
+        if angle > 360:
+            angle -= 360
+        if angle < 0:
+            angle += 360
+
+    clock.tick(FPS)
+
+def mediumscreen():
+    #running = True
+    screen.fill('black')
+    scroll = 0
+    tiles = math.ceil(SCREEN_WIDTH / bg.get_width()) + 1
+    while 1:
+        clock.tick(33)
+        
+        i=0
+        while (i < tiles):
+            screen.blit(bg, (bg.get_width()*i 
+                            + scroll, 0))
+            i+=1
+        scroll =-6
+        if abs(scroll) > bg.get_width():
+            scroll=0
+        
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT:     
+                pygame.quit() 
+                quit()
+        
+        pygame.display.update()
+
+def hardscreen():
+    running = True
+    while running:
+        screen.fill('black')
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT: 
+                running = False    
+                pygame.quit() 
+                quit()
+        pygame.display.update()
 # MAIN ****************************************************************************************
 while running:
     if home_page:
-        screen.blit(BG, (0, 0))
+        screen.blit(background, (0, 0))
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("TEAM ORANGE", True, "#b68f40")
+        MENU_TEXT = get_font(100).render("TEAM ORANGE", True, "white")
         MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
         GAME_BUTTON = Button(play_rect, pos=(640, 250),
@@ -334,97 +424,38 @@ while running:
     
     if pregamescreen:
         screen.fill("ORANGE")
+        
+        PREGAME_MOUSE_POS = pygame.mouse.get_pos()
 
-        PREGAME_TEXT = get_font(80).render("CHOOSE YOUR DIFFICULT:", True, "WHITE")
+        PREGAME_TEXT = get_font(75).render("CHOOSE YOUR DIFFICULTY:", True, "WHITE")
         PREGAME_RECT = PREGAME_TEXT.get_rect(center=(640, 100))
 
-        PREGAME1_TEXT = get_font(80).render("1 = EASY", True, "WHITE")
-        PREGAME1_RECT = PREGAME1_TEXT.get_rect(center=(640, 250))
+        EASY_BUTTON = Button(None, pos=(640,250), text_input="EASY", font=get_font(50), base_color="Black", hovering_color="Green")
 
-        PREGAME2_TEXT = get_font(80).render("2 = MEDIUM", True, "WHITE")
-        PREGAME2_RECT = PREGAME2_TEXT.get_rect(center=(640, 400))
+        MEDIUM_BUTTON = Button(None, pos=(640,450), text_input="MEDIUM", font=get_font(50), base_color="Black", hovering_color="Green")
 
-        PREGAME3_TEXT = get_font(80).render("3 = HARD", True, "WHITE")
-        PREGAME3_RECT = PREGAME3_TEXT.get_rect(center=(640, 550))
+        HARD_BUTTON = Button(None, pos=(640,650), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
+
 
         screen.blit(PREGAME_TEXT, PREGAME_RECT)
-        screen.blit(PREGAME1_TEXT, PREGAME1_RECT)
-        screen.blit(PREGAME2_TEXT, PREGAME2_RECT)
-        screen.blit(PREGAME3_TEXT, PREGAME3_RECT)
-        
+        for button in [EASY_BUTTON, MEDIUM_BUTTON, HARD_BUTTON]:
+            button.changeColor(PREGAME_MOUSE_POS)
+            button.update(screen)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     pregamescreen = False
-                    play_page1 = True
-                if event.key == pygame.K_2:
-                    pregamescreen = False
-                    play_page2 = True
-                if event.key == pygame.K_3:
-                    pregamescreen = False
-                    play_page3 = True
-                if event.key == pygame.K_ESCAPE:
-                    quit()
+                    easyscreen()
+                if MEDIUM_BUTTON.checkForInput(PREGAME_MOUSE_POS):
+                    mediumscreen()
+                if HARD_BUTTON.checkForInput(PREGAME_MOUSE_POS):
+                    hardscreen()
+
 
         pygame.display.update()
-
-
     
-    if play_page1:
-        screen.blit(BG2, (0,0))
-        
-        PLAY1_MOUSE_POS = pygame.mouse.get_pos()
-
-        MENU_TEXT = get_font(100).render("TEAM ORANGE 1", True, "white")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 105))
-
-        screen.blit(MENU_TEXT, MENU_RECT)
-
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    pausescreen()
-        
-    if play_page2:
-        screen.blit(BG2, (0,0))
-        
-        PLAY2_MOUSE_POS = pygame.mouse.get_pos()
-
-        MENU_TEXT = get_font(100).render("TEAM ORANGE 2", True, "white")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 105))
-
-        screen.blit(MENU_TEXT, MENU_RECT)
-
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    pausescreen()
-
-    if play_page3:
-        screen.blit(BG2, (0,0))
-        
-        PLAY3_MOUSE_POS = pygame.mouse.get_pos()
-
-        MENU_TEXT = get_font(100).render("TEAM ORANGE 3", True, "white")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 105))
-
-        screen.blit(MENU_TEXT, MENU_RECT)
-
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    pausescreen()
-
     pygame.display.update()
