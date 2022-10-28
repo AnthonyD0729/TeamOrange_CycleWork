@@ -1,16 +1,16 @@
 #imports needed**********************************************************
 import pygame,sys
 from button import Button
-#import pygame_menu
+import pygame_menu
 import math
 from pygame.locals import *
 from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
-import tkinter
+from tkinter import *
 import random
-import pygame
+
 #allows us to use pygame features
 pygame.init()
 
@@ -22,6 +22,7 @@ pygame.display.set_caption("Menu")
 canvas = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 FPS=60
+root = Tk()
 play_page1 = False
 play_page2 = False
 play_page3 = False
@@ -35,6 +36,7 @@ save = load_save()
 control_handler = Controls_Handler(save)
 monitor_size = [pygame.display.Info().current_w, pygame.display.Info().current_h]
 vec = pygame.math.Vector2
+
 # Colors **********************************************************************************
 RED = (255,0,0)
 GREEN = (0,0,255)
@@ -355,6 +357,11 @@ def mediumscreen():
     screen.fill('black')
     running = True
     while running:
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+
         for event in pygame.event.get():  
             if event.type == pygame.QUIT: 
                 running = False
@@ -363,7 +370,28 @@ def mediumscreen():
         
         pygame.display.update()
 
+def robot_options():
+    pass
+
 def hardscreen():
+    running = True
+    while running:
+        screen.fill('black')
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+        pygame_menu.Menu.add.selector('CPU 1:', )
+
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT: 
+                running = False    
+                pygame.quit() 
+                quit()
+        pygame.display.update()
+
+
+def start_screen():
     running = True
     while running:
         screen.fill('black')
@@ -373,22 +401,7 @@ def hardscreen():
                 pygame.quit() 
                 quit()
         pygame.display.update()
-
-def botsmenu():
-    running = True
-    while running:
-        screen.fill('orange')
-
-        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
-        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
-        screen.blit(SCREEN_TEXT, SCREEN_RECT)
-
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
-        pygame.display.update()
+       
 # MAIN ****************************************************************************************
 while running:
     if home_page:
@@ -452,16 +465,28 @@ while running:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     pregamescreen = False
-                    botsmenu()
                     easyscreen()
                 if MEDIUM_BUTTON.checkForInput(PREGAME_MOUSE_POS):
-                    botsmenu()
                     mediumscreen()
                 if HARD_BUTTON.checkForInput(PREGAME_MOUSE_POS):
-                    botsmenu()
                     hardscreen()
 
 
         pygame.display.update()
     
     pygame.display.update()
+
+
+options = [
+    "Monday"
+    "Tuesday"
+    "Wednesday"
+    "Thursday"
+    "Friday"
+    "Saturday"
+    "Sunday"
+]
+clicked = StringVar()
+clicked.set(options[0])
+drop = hardscreen(root, clicked, *options)
+drop.pack()
