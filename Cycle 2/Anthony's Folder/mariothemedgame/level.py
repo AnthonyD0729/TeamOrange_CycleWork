@@ -1,5 +1,3 @@
-from re import L
-from this import d
 import pygame
 from tiles import Tile
 from settings import tile_size
