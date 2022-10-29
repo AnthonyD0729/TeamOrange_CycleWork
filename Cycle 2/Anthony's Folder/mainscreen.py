@@ -8,7 +8,7 @@ from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
-from tkinter import *
+#from tkinter import *
 import random
 
 #allows us to use pygame features
@@ -22,7 +22,7 @@ pygame.display.set_caption("Menu")
 canvas = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 FPS=60
-root = Tk()
+#root=Tk()
 play_page1 = False
 play_page2 = False
 play_page3 = False
@@ -402,6 +402,20 @@ def start_screen():
                 quit()
         pygame.display.update()
        
+def drop_down():
+    options = [
+    "Monday"
+    "Tuesday"
+    "Wednesday"
+    "Thursday"
+    "Friday"
+    "Saturday"
+    "Sunday"
+]
+    clicked = StringVar()
+    clicked.set(options[0])
+    drop = hardscreen(root, clicked, *options)
+    drop.pack()
 # MAIN ****************************************************************************************
 while running:
     if home_page:
@@ -475,18 +489,3 @@ while running:
         pygame.display.update()
     
     pygame.display.update()
-
-
-options = [
-    "Monday"
-    "Tuesday"
-    "Wednesday"
-    "Thursday"
-    "Friday"
-    "Saturday"
-    "Sunday"
-]
-clicked = StringVar()
-clicked.set(options[0])
-drop = hardscreen(root, clicked, *options)
-drop.pack()
