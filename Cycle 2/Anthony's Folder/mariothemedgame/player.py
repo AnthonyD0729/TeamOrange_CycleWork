@@ -2,7 +2,7 @@ import pygame
 from support import import_folder
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, pos, surface, create_jump_particles):
         super().__init__()
         self.import_character_assets()
         self.frame_index = 0
@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         
     def import_character_assets(self):
         character_path = '../graphics/characters/'
-        self.animations = {'idle': [], 'run': [], 'jump': [], 'fall': []}
+        self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
@@ -43,12 +43,13 @@ class Player(pygame.sprite.Sprite):
         self.dust_run_particles = import_folder('../graphics/character/dust_particle/run')
     
     def animate(self):
-        animation = self.animation(self.status)
+        animation = self.animations(self.status)
 
         #loop over frame indez
-        self.frame_index += self.animations_speed
+        self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
             self.frame_index = 0
+        
         image = animation[int(self.frame_index)]
         if self.facing_right:
             self.image = image
@@ -75,7 +76,9 @@ class Player(pygame.sprite.Sprite):
             self.dust_frame_index += self.dust_animation_speed
             if self.dust_frame_index >= len(self.dust_run_particles):
                 self.dust_frame_index = 0
+            
             dust_particle = self.dust_run_particles[int(self.dust_frame_index)]
+            
             if self.facing_right:
                 pos = self.rect.bottomleft - pygame.math.Vector2(6,10)
                 self.display_surface.blit(dust_particle,pos)
@@ -97,7 +100,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
         
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
             self.create_jump_particles(self.rect.midbottom)
 
@@ -121,3 +124,6 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.get_input()
+        self.get_status()
+        self.animate()
+        self.run_dust_animations()

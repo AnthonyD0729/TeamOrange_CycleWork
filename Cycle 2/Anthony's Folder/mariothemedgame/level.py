@@ -1,8 +1,9 @@
 import pygame
 from tiles import Tile
-from settings import tile_size
+from settings import tile_size, screen_width
 from player import Player
- 
+from particles import ParticleEffect
+
 class Level:
     def __init__(self, level_data, surface):
 
@@ -52,7 +53,7 @@ class Level:
                     tile = Tile((x,y),tile_size)
                     self.tiles.add(tile)
                 if cell == 'P':
-                    player_sprite = Player((x,y))
+                    player_sprite = Player((x,y), self.display_surface, self.create_jump_particles)
                     self.player.add(player_sprite)                    
 
     def scroll_x(self):
@@ -60,10 +61,10 @@ class Level:
         player_x = player.rect.centerx
         direction_x = player.direction.x
 
-        if player_x < 200 and direction_x < 0:
+        if player_x < screen_width / 4 and direction_x < 0:
             self.world_shift = 8
             player.speed = 0
-        elif player_x > 1000 and direction_x > 0:
+        elif player_x > screen_width - (screen_width / 4) and direction_x > 0:
             self.world_shift = -8
             player.speed = 0
         else:
@@ -97,6 +98,10 @@ class Level:
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
+        if player.on_ground and player.direction.y < 0 or player.direction > 1:
+            player.on_ground = False
+        if player.on_ceiling and player.direction.y > 0.1:
+            player.on_cieling = False
 
     def run(self):
         #dust particles
