@@ -8,6 +8,7 @@ from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
+from dropselect import DropSelect
 #from tkinter import *
 import random
 
@@ -375,19 +376,27 @@ def robot_options():
 
 def hardscreen():
     running = True
+    HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
     while running:
         screen.fill('black')
 
         SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
-        pygame_menu.Menu.add.selector('CPU 1:', )
-
+        BOT1 = DropSelect(title= "CPUs", items=[('Tank Bot', 'Mine Bot')], dropselect_id= '1', onchange= None, onreturn= None, onselect= None, open_middle= False, placeholder= ' ', placeholder_add_to_selection_box= True, selection_box_bgcolor= (255,255,255), selection_box_border_color= (50,50,50))
+        
+        
+        
+        
         for event in pygame.event.get():  
             if event.type == pygame.QUIT: 
                 running = False    
                 pygame.quit() 
                 quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    BOT1._font_shadow_color = 'green'
+                    
         pygame.display.update()
 
 
@@ -402,20 +411,6 @@ def start_screen():
                 quit()
         pygame.display.update()
        
-def drop_down():
-    options = [
-    "Monday"
-    "Tuesday"
-    "Wednesday"
-    "Thursday"
-    "Friday"
-    "Saturday"
-    "Sunday"
-]
-    clicked = StringVar()
-    clicked.set(options[0])
-    drop = hardscreen(root, clicked, *options)
-    drop.pack()
 # MAIN ****************************************************************************************
 while running:
     if home_page:
