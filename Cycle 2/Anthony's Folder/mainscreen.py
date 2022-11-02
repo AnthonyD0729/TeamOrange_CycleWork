@@ -1,15 +1,17 @@
 #imports needed**********************************************************
 import pygame,sys
 from button import Button
-#import pygame_menu
+import pygame_menu
 import math
 from pygame.locals import *
 from turtle import update
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
-import tkinter
+from dropselect import DropSelect
+#from tkinter import *
 import random
+
 #allows us to use pygame features
 pygame.init()
 
@@ -18,9 +20,10 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT =720
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Menu")
-canvas = pygame.Surface((480,270))
+canvas = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 FPS=60
+#root=Tk()
 play_page1 = False
 play_page2 = False
 play_page3 = False
@@ -29,10 +32,12 @@ game_page = False
 options_page = False
 pregamescreen = False
 running = True
+actions = {"Left": False, "Right": False, "Up": False, "Down": False, "Start": False, "Action1": False}
 save = load_save()
 control_handler = Controls_Handler(save)
 monitor_size = [pygame.display.Info().current_w, pygame.display.Info().current_h]
 vec = pygame.math.Vector2
+
 # Colors **********************************************************************************
 RED = (255,0,0)
 GREEN = (0,0,255)
@@ -43,7 +48,6 @@ PURPLE = (155,38,182)
 AQUA = (0,103,127)
 BLACK = (30,30,30)
 GRAY = (128,128,128)
-TEXT_COL = (255,255,255)
 
 # Fonts and Music ***************************************************************************
 #definition for the font
@@ -81,6 +85,7 @@ audio_img = pygame.image.load('images/button_audio.png').convert_alpha()
 keys_img = pygame.image.load('images/button_keys.png').convert_alpha()
 back_img = pygame.image.load('images/Back Rect.png').convert_alpha()
 pause_img = pygame.image.load('images/pause.png').convert_alpha()
+plus_img = pygame.image.load('images/plus.png')
 #Buttons ***********************************************************************
 GAME_BUTTON = Button(play_rect, pos=(640, 250),
                         text_input="GAME", font=get_font(75), base_color="#d7fcd4", hovering_color="Black")
@@ -116,6 +121,7 @@ MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(5
 
 HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
 
+PLUS_BUTTON = Button(plus_img, pos=(175,340), text_input="Add", font=get_font(10), base_color='Green', hovering_color=None )
 # Defintions ***************************************************************************************************************************************
 
 def draw_text(text,font, text_col,x,y):
@@ -222,15 +228,13 @@ def pausescreen():
         pygame.display.update()
 
 def controlspage():
-    save = load_save()
-    control_handler = Controls_Handler(save)
-    actions = {"Left": False, "Right": False, "Up": False, "Down": False, "Start": False, "Action1": False}
     running = True
     while running:
-    ################################# CHECK PLAYER INPUT #################################
+        screen.fill('black')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
@@ -245,7 +249,7 @@ def controlspage():
                 if event.key == control_handler.controls['Start']:
                     actions['Start'] = True
                 if event.key == control_handler.controls['Action1']:
-                    actions['Action1'] = True
+                    actions['Action 1'] = True
 
             if event.type == pygame.KEYUP:
                 if event.key == control_handler.controls['Left']:
@@ -259,14 +263,12 @@ def controlspage():
                 if event.key == control_handler.controls['Start']:
                     actions['Start'] = False
                 if event.key == control_handler.controls['Action1']:
-                    actions['Action1'] = False
-
-        ################################# UPDATE THE GAME #################################
+                    actions['Action 1'] = False
+        
         control_handler.update(actions)
-        ################################# RENDER WINDOW AND DISPLAY #################################
-        canvas.fill(("white"))
+        canvas.fill((135,206,235))
         control_handler.render(canvas)
-        screen.blit(pygame.transform.scale(canvas, (1280,720) ), (0,0))
+        screen.blit(pygame.transform.scale(canvas, (SCREEN_WIDTH*2.7, SCREEN_HEIGHT*2.7)), (0,0))
         pygame.display.update()
         reset_keys(actions)
 
@@ -302,7 +304,6 @@ def fullscreen_option():
         FULL_RECT = FULL_TEXT.get_rect(center=(640, 360))
         screen.blit(FULL_TEXT, FULL_RECT)
 
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(screen.get_width() - 5 - (screen.get_width() / 5), 50, screen.get_width() / 5, 50))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -355,28 +356,51 @@ def easyscreen():
 def mediumscreen():
     #running = True
     screen.fill('black')
-    scroll = 0
-    tiles = math.ceil(SCREEN_WIDTH / bg.get_width()) + 1
-    while 1:
-        clock.tick(33)
-        
-        i=0
-        while (i < tiles):
-            screen.blit(bg, (bg.get_width()*i 
-                            + scroll, 0))
-            i+=1
-        scroll =-6
-        if abs(scroll) > bg.get_width():
-            scroll=0
-        
+    running = True
+    while running:
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+
         for event in pygame.event.get():  
-            if event.type == pygame.QUIT:     
+            if event.type == pygame.QUIT: 
+                running = False
                 pygame.quit() 
                 quit()
         
         pygame.display.update()
 
+def robot_options():
+    pass
+
 def hardscreen():
+    running = True
+    HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
+    while running:
+        screen.fill('black')
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+        BOT1 = DropSelect(title= "CPUs", items=[('Tank Bot', 'Mine Bot')], dropselect_id= '1', onchange= None, onreturn= None, onselect= None, open_middle= False, placeholder= ' ', placeholder_add_to_selection_box= True, selection_box_bgcolor= (255,255,255), selection_box_border_color= (50,50,50))
+        
+        
+        
+        
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT: 
+                running = False    
+                pygame.quit() 
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    BOT1._font_shadow_color = 'green'
+                    
+        pygame.display.update()
+
+
+def start_screen():
     running = True
     while running:
         screen.fill('black')
@@ -386,6 +410,7 @@ def hardscreen():
                 pygame.quit() 
                 quit()
         pygame.display.update()
+       
 # MAIN ****************************************************************************************
 while running:
     if home_page:

@@ -1,3 +1,5 @@
+from operator import truediv
+from re import L
 import pygame, sys
 from util import write_save
 
@@ -9,7 +11,7 @@ class Controls_Handler():
         self.setup()
 
     def update(self, actions):
-        if self.selected: self.set_new_control()
+        if self.selected: self.set_new_controls()
         else: self.navigate_menu(actions)
 
     def render(self, surface):
@@ -18,41 +20,40 @@ class Controls_Handler():
         if self.curr_block == self.save_file["current_profile"]: self.draw_text(surface, "*"  , 20, pygame.Color((0,0,0)), 20, 20)
 
     def navigate_menu(self, actions):
-        # Move the cursor up and down
-        if actions["Down"]: self.curr_index = (self.curr_index + 1) % (len(self.save_file["controls"][str(self.curr_block)]) + 1)
-        if actions["Up"]: self.curr_index = (self.curr_index - 1) % (len(self.save_file["controls"][str(self.curr_block)]) + 1)
-        # Switch between profiles
-        if actions["Left"]: self.curr_block = (self.curr_block -1) % len(self.save_file["controls"]) 
-        if actions["Right"]: self.curr_block = (self.curr_block +1) % len(self.save_file["controls"]) 
-        # Handle Selection
+        if actions["Down"]:
+            self.curr_index = (self.curr_index + 1) % (len(self.save_file["controls"][str(self.curr_block)]) +1 )
+        if actions["Up"]:
+            self.curr_index = (self.curr_index - 1) % (len(self.save_file["controls"][str(self.curr_block)]) +1 )
+        if actions["Left"]:
+            self.curr_block = (self.curr_block - 1) % len(self.save_file["controls"])
+        if actions["Right"]:
+            self.curr_block = (self.curr_block + 1) % len(self.save_file["controls"])
         if actions["Action1"] or actions["Start"]:
-            # Set the current profile to be the main one
             if self.cursor_dict[self.curr_index] == "Set":
                 self.controls = self.save_file["controls"][str(self.curr_block)]
                 self.save_file["current_profile"] = self.curr_block
                 write_save(self.save_file)
-            else: 
-                self.selected = True
-
-    def set_new_control(self):
+            else: self.selected = True
+    
+    def set_new_controls(self):
         selected_control = self.cursor_dict[self.curr_index]
         done = False
         while not done:
             for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT:
+                    done = True
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
                         done = True
                         pygame.quit()
                         sys.exit()
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE:
-                            done = True
-                            pygame.quit()
-                            sys.exit()
-                        elif event.key not in self.save_file["controls"][str(self.curr_block)].values():
-                            self.save_file["controls"][str(self.curr_block)][selected_control] = event.key
-                            write_save(self.save_file)
-                            self.selected = False
-                            done = True
+                    elif event.key not in self.save_file["controls"][str(self.curr_block)].values():
+                        self.save_file["controls"][str(self.curr_block)][selected_control] = event.key
+                        write_save(self.save_file)
+                        self.selected = False
+                        done = True
 
     def display_controls(self,surface, controls):
         color = (255,13,5) if self.selected else (255,250,239)
