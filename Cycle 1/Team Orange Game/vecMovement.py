@@ -36,6 +36,7 @@ pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
 pygame.display.set_caption("I like to see you wiggle, wiggle, for sure")
 GREY = (76,81,83)
 
+
 speed = 1
 angle = 45
 currLoc = 0
@@ -61,7 +62,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect.center = self.position
         #why does the rotation only work here??
         self.image = pygame.transform.rotate(self.ogim, -angle-90)
-        self.rect = self.image.get_rect(center=self.rect.center)        
+        self.rect = self.image.get_rect(center=self.rect.center)      
 
 
     def boundarycheck(self):
@@ -72,10 +73,13 @@ class Tank(pygame.sprite.Sprite):
             pygame.time.wait(200)
             angle += 180
 
-    #def rotate(self):
-    #    global angle
-    #    print(angle)
-
+    def rotate(self):
+        global angle
+        angle += random.randint(-6, 6)
+        if angle > 360:
+            angle -= 360
+        if angle < 0:
+            angle += 360
 
 
 
@@ -93,18 +97,14 @@ while running:
 
     all_sprites.update()
     Tank().boundarycheck()
-    #Tank().rotate()
+    Tank().rotate()
 
     screen.fill(GREY)
     all_sprites.draw(screen)
     pygame.display.update()
 
     # ATROBOT tank "program"
-    rand = random.randint(-6, 6)
-    angle += rand
-    if angle > 360:
-        angle -= 360
-    if angle < 0:
-        angle += 360
+
+
 
     tickrate.tick(FPS)
