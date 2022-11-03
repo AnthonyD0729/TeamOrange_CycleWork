@@ -9,7 +9,7 @@ from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
 from dropselect import DropSelect
-#from tkinter import *
+from typing import Tuple, Any, Optional, List
 import random
 
 #allows us to use pygame features
@@ -372,7 +372,33 @@ def mediumscreen():
         pygame.display.update()
 
 def robot_options():
-    pass
+    play_menu = pygame_menu.Menu(
+        theme= pygame_menu.themes.THEME_ORANGE.copy(),
+        height=720,
+        title='Game Menu',
+        width=1280
+    )
+
+    #play_menu.add.button('Start',  # When pressing return -> play(DIFFICULTY[0], font)
+                         #easyscreen,
+                         #pygame.font.Font(pygame_menu.font.FONT_FRANCHISE, 30))
+    play_menu.add.selector('Select bot ',
+                           [('1 - Easy', 'EASY'),
+                            ('2 - Medium', 'MEDIUM'),
+                            ('3 - Hard', 'HARD')],
+                           onchange=change_bot,
+                           selector_id='select_bot')
+
+def change_bot(value: Tuple[Any, int], bot: str) -> None:
+    """
+    Change difficulty of the game.
+    :param value: Tuple containing the data of the selected object
+    :param difficulty: Optional parameter passed as argument to add_selector
+    """
+    selected, index = value
+    print(f'Selected difficulty: "{selected}" ({bot}) at index {index}')
+    bot[0] = bot
+
 
 def hardscreen():
     running = True
@@ -394,8 +420,6 @@ def hardscreen():
                 running = False    
                 pygame.quit() 
                 quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                    BOT1._font_shadow_color = 'green'
                     
         pygame.display.update()
 
@@ -474,6 +498,7 @@ while running:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     pregamescreen = False
+                    robot_options()
                     easyscreen()
                 if MEDIUM_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     mediumscreen()
