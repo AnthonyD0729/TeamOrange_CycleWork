@@ -1,8 +1,6 @@
-from operator import truediv
-from re import L
 import pygame, sys
 from util import write_save
-
+pygame.init()
 class Controls_Handler():
     def __init__(self, save):
         self.save_file = save
