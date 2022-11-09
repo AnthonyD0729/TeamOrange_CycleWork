@@ -7,7 +7,7 @@ from util import load_save, reset_keys
 from controls import Controls_Handler
 from random import randrange
 from typing import Tuple, Any, Optional, List
-
+from sound import Sound
 # Constants and global variables
 ABOUT = [f'pygame-menu {pygame_menu.__version__}',
          f'Authors: Anthony Deyoe, Kevin Malone, Sal Mecca, and Isaac Otto',
@@ -263,17 +263,17 @@ def main(test: bool = False) -> None:
     )
 
     submenu_theme = pygame_menu.themes.THEME_ORANGE.copy()
-    submenu_theme.widget_font_size = 15
+    submenu_theme.widget_font_size = 30
     play_options = pygame_menu.Menu(
         height=WINDOW_SIZE[1],
         theme=submenu_theme,
         title='Options',
         width=WINDOW_SIZE[0]
     )
-    play_options.add.button(f'Video', pygame_menu.events.BACK)
-    play_options.add.button(f'Controls', controlspage)
-    play_options.add.button(f'Sound', pygame.mixer.music.play(loops = -1))
-    play_options.add.button(f'Fullscreen', fullscreen_option)
+    play_options.add.button('Video', pygame_menu.events.BACK)
+    play_options.add.button('Controls', controlspage)
+    play_options.add.button('Sound', pygame.mixer.music.play(loops = -1))
+    play_options.add.button('Fullscreen', fullscreen_option)
     play_options.add.button('Return to main menu', pygame_menu.events.RESET)
 
     play_menu.add.button('Start',  # When pressing return -> play(DIFFICULTY[0], font)
