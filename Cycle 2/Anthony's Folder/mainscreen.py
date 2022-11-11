@@ -121,7 +121,20 @@ MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(5
 
 HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
 
-PLUS_BUTTON = Button(plus_img, pos=(175,340), text_input="Add", font=get_font(10), base_color='Green', hovering_color=None )
+SITTING_DUCK_BUTTON = Button(None, pos=(175,340), text_input="SITTING DUCK", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SNIPER_BUTTON = Button(None, pos=(175,340), text_input="SNIPER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+IDEA3_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
+IDEA4_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
+IDEA5_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
+IDEA6_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
+IDEA7_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+
 # Defintions ***************************************************************************************************************************************
 
 def draw_text(text,font, text_col,x,y):
@@ -371,34 +384,6 @@ def mediumscreen():
         
         pygame.display.update()
 
-def robot_options():
-    play_menu = pygame_menu.Menu(
-        theme= pygame_menu.themes.THEME_ORANGE.copy(),
-        height=720,
-        title='Game Menu',
-        width=1280
-    )
-
-    #play_menu.add.button('Start',  # When pressing return -> play(DIFFICULTY[0], font)
-                         #easyscreen,
-                         #pygame.font.Font(pygame_menu.font.FONT_FRANCHISE, 30))
-    play_menu.add.selector('Select bot ',
-                           [('1 - Easy', 'EASY'),
-                            ('2 - Medium', 'MEDIUM'),
-                            ('3 - Hard', 'HARD')],
-                           onchange=change_bot,
-                           selector_id='select_bot')
-
-def change_bot(value: Tuple[Any, int], bot: str) -> None:
-    """
-    Change difficulty of the game.
-    :param value: Tuple containing the data of the selected object
-    :param difficulty: Optional parameter passed as argument to add_selector
-    """
-    selected, index = value
-    print(f'Selected difficulty: "{selected}" ({bot}) at index {index}')
-    bot[0] = bot
-
 
 def hardscreen():
     running = True
@@ -410,8 +395,6 @@ def hardscreen():
         SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
-        BOT1 = DropSelect(title= "CPUs", items=[('Tank Bot', 'Mine Bot')], dropselect_id= '1', onchange= None, onreturn= None, onselect= None, open_middle= False, placeholder= ' ', placeholder_add_to_selection_box= True, selection_box_bgcolor= (255,255,255), selection_box_border_color= (50,50,50))
-        
         
         
         
