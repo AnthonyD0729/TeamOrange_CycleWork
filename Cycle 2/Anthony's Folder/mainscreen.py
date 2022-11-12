@@ -121,25 +121,42 @@ MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(5
 
 HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
 
-SITTING_DUCK_BUTTON = Button(None, pos=(175,340), text_input="SITTING DUCK", font=get_font(50), base_color="Black", hovering_color="Green")
+SITTING_DUCK_BUTTON = Button(None, pos=(150,200), text_input="SITTING DUCK", font=get_font(50), base_color="White", hovering_color="Green")
 
-SNIPER_BUTTON = Button(None, pos=(175,340), text_input="SNIPER", font=get_font(50), base_color="Black", hovering_color="Green")
+SNIPER_BUTTON = Button(None, pos=(300,300), text_input="SNIPER", font=get_font(50), base_color="White", hovering_color="Green")
 
-IDEA3_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+PEASHOOT_BUTTON = Button(None, pos=(450,300), text_input="PEASHOOT", font=get_font(50), base_color="White", hovering_color="Green")
 
-IDEA4_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+ZITGUN_BUTTON = Button(None, pos=(175,340), text_input="ZITGUN", font=get_font(50), base_color="White", hovering_color="Green")
 
-IDEA5_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+TRACKER_BUTTON = Button(None, pos=(175,340), text_input="TRACKER", font=get_font(50), base_color="White", hovering_color="Green")
 
-IDEA6_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+WALLBOMB_BUTTON = Button(None, pos=(175,340), text_input="WALLBOMB", font=get_font(50), base_color="White", hovering_color="Green")
 
-IDEA7_BUTTON = Button(None, pos=(175,340), text_input="INFO", font=get_font(50), base_color="Black", hovering_color="Green")
+CIRCLES_BUTTON = Button(None, pos=(175,340), text_input="CIRCLES", font=get_font(50), base_color="White", hovering_color="Green")
 
+GLADYS_BUTTON = Button(None, pos=(175,340), text_input="GLADYS", font=get_font(50), base_color="White", hovering_color="Green")
+
+INDIRECT_BUTTON = Button(None, pos=(175,340), text_input="INDIRECT", font=get_font(50), base_color="White", hovering_color="Green")
+
+MOSQUITO_BUTTON = Button(None, pos=(175,340), text_input="MOSQUITO", font=get_font(50), base_color="White", hovering_color="Green")
+
+OVERHEAT_BUTTON = Button(None, pos=(175,340), text_input="OVERHEAT", font=get_font(50), base_color="White", hovering_color="Green")
+
+RAMMER_BUTTON = Button(None, pos=(175,340), text_input="RAMMER", font=get_font(50), base_color="White", hovering_color="Green")
+
+SCOOTER_BUTTON = Button(None, pos=(175,340), text_input="SCOOTER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SUICIDE_BUTTON = Button(None, pos=(175,340), text_input="SUICIDE", font=get_font(50), base_color="Black", hovering_color="Green")
+
+TRAPPER_BUTTON = Button(None, pos=(175,340), text_input="TRAPPER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+TOBI_8__BUTTON = Button(None, pos=(175,340), text_input="TOBI-8", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SWEEPER_BUTTON = Button(None, pos=(175,340), text_input="SWEEPER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SHANNON_BUTTON = Button(None, pos=(175,340), text_input="SHANNON", font=get_font(50), base_color="Black", hovering_color="Green")
 # Defintions ***************************************************************************************************************************************
-
-def draw_text(text,font, text_col,x,y):
-    img = font.render(text,True, text_col)
-    screen.blit(img,(x,y))
 
 def options():
     sound_on = True
@@ -388,22 +405,43 @@ def mediumscreen():
 def hardscreen():
     running = True
     HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
-
     while running:
         screen.fill('black')
 
-        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
         
+        SITTING_DUCK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SNIPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        PEASHOOT_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        ZITGUN_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        TRACKER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        WALLBOMB_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+
+        for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON, BACK_BUTTON]:
+            button.changeColor(HARDSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
         
-        
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
-                    
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    return
+                if VIDEO_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    print("Video Settings")
+                if CONTROLS_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    controlspage()
+                if FULLSCREEN_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    fullscreen_option()
+                if INFO_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    infopage()
         pygame.display.update()
 
 
@@ -481,7 +519,6 @@ while running:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     pregamescreen = False
-                    robot_options()
                     easyscreen()
                 if MEDIUM_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     mediumscreen()
