@@ -121,17 +121,17 @@ MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(5
 
 HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
 
-SITTING_DUCK_BUTTON = Button(None, pos=(150,200), text_input="SITTING DUCK", font=get_font(50), base_color="White", hovering_color="Green")
+SITTING_DUCK_BUTTON = Button(None, pos=(450,200), text_input="SDUCK", font=get_font(50), base_color="White", hovering_color="Green")
 
-SNIPER_BUTTON = Button(None, pos=(300,300), text_input="SNIPER", font=get_font(50), base_color="White", hovering_color="Green")
+SNIPER_BUTTON = Button(None, pos=(450,400), text_input="SNIPER", font=get_font(50), base_color="White", hovering_color="Green")
 
-PEASHOOT_BUTTON = Button(None, pos=(450,300), text_input="PEASHOOT", font=get_font(50), base_color="White", hovering_color="Green")
+PEASHOOT_BUTTON = Button(None, pos=(450,600), text_input="PEASHOOT", font=get_font(50), base_color="White", hovering_color="Green")
 
-ZITGUN_BUTTON = Button(None, pos=(175,340), text_input="ZITGUN", font=get_font(50), base_color="White", hovering_color="Green")
+ZITGUN_BUTTON = Button(None, pos=(900,200), text_input="ZITGUN", font=get_font(50), base_color="White", hovering_color="Green")
 
-TRACKER_BUTTON = Button(None, pos=(175,340), text_input="TRACKER", font=get_font(50), base_color="White", hovering_color="Green")
+TRACKER_BUTTON = Button(None, pos=(900,400), text_input="TRACKER", font=get_font(50), base_color="White", hovering_color="Green")
 
-WALLBOMB_BUTTON = Button(None, pos=(175,340), text_input="WALLBOMB", font=get_font(50), base_color="White", hovering_color="Green")
+WALLBOMB_BUTTON = Button(None, pos=(900,600), text_input="WALLBOMB", font=get_font(50), base_color="White", hovering_color="Green")
 
 CIRCLES_BUTTON = Button(None, pos=(175,340), text_input="CIRCLES", font=get_font(50), base_color="White", hovering_color="Green")
 
@@ -151,7 +151,7 @@ SUICIDE_BUTTON = Button(None, pos=(175,340), text_input="SUICIDE", font=get_font
 
 TRAPPER_BUTTON = Button(None, pos=(175,340), text_input="TRAPPER", font=get_font(50), base_color="Black", hovering_color="Green")
 
-TOBI_8__BUTTON = Button(None, pos=(175,340), text_input="TOBI-8", font=get_font(50), base_color="Black", hovering_color="Green")
+TOBI_8_BUTTON = Button(None, pos=(175,340), text_input="TOBI-8", font=get_font(50), base_color="Black", hovering_color="Green")
 
 SWEEPER_BUTTON = Button(None, pos=(175,340), text_input="SWEEPER", font=get_font(50), base_color="Black", hovering_color="Green")
 
@@ -358,68 +358,116 @@ def fullscreen_option():
         clock.tick(60)
 
 def easyscreen():
-    all_sprites = pygame.sprite.Group()
-    all_sprites.add(Tank())
-    angle = 45
     running = True
     while running:
-        screen.fill('black')
-        #screen.blit(bg, (0,0))
-        all_sprites.update()
-        Tank().boundarycheck()
-        all_sprites.draw(screen)
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
-        pygame.display.update()
-        rand = random.randint(-6, 6)
-        angle += rand
-        if angle > 360:
-            angle -= 360
-        if angle < 0:
-            angle += 360
-
-    clock.tick(FPS)
-
-def mediumscreen():
-    #running = True
-    screen.fill('black')
-    running = True
-    while running:
-
-        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
-        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
-        screen.blit(SCREEN_TEXT, SCREEN_RECT)
-
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False
-                pygame.quit() 
-                quit()
-        
-        pygame.display.update()
-
-
-def hardscreen():
-    running = True
-    HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
-    while running:
-        screen.fill('black')
+        screen.fill('orange')
+        EASYSCREEN_MOUSE_POS = pygame.mouse.get_pos()
 
         SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
         
-        SITTING_DUCK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        SNIPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        PEASHOOT_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        ZITGUN_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        TRACKER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        WALLBOMB_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
-        BACK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SITTING_DUCK_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        SNIPER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        PEASHOOT_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        ZITGUN_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        TRACKER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        WALLBOMB_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON, BACK_BUTTON]:
+            button.changeColor(EASYSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    return
+                if SITTING_DUCK_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    sduck()
+                if SNIPER_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    sniper()
+                if PEASHOOT_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    peashoot()
+                if ZITGUN_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    zitgun()
+                if TRACKER_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    tracker()
+                if WALLBOMB_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    wallbomb()
+        pygame.display.update()
 
+def mediumscreen():
+    running = True
+    while running:
+        screen.fill('orange')
+        MEDIUMSCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+        
+        CIRCLES_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        GLADYS_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        INDIRECT_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        MOSQUITO_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        OVERHEAT_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        RAMMER_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON, BACK_BUTTON]:
+            button.changeColor(MEDIUMSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    return
+                if SCOOTER_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    sduck()
+                if SUICIDE_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    sniper()
+                if TRAPPER_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    peashoot()
+                if TOBI_8_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    zitgun()
+                if SWEEPER_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    tracker()
+                if SHANNON_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    wallbomb()
+        pygame.display.update()
+
+
+
+def hardscreen():
+    running = True
+    while running:
+        screen.fill('orange')
+        HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+        
+        SCOOTER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SUICIDE_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        TRAPPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        TOBI_8_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SWEEPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SHANNON_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
         for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON, BACK_BUTTON]:
             button.changeColor(HARDSCREEN_MOUSE_POS)
             button.update(screen)
@@ -430,32 +478,43 @@ def hardscreen():
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
+                    pygame.quit()
+                    quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
                     return
-                if VIDEO_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
-                    print("Video Settings")
-                if CONTROLS_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
-                    controlspage()
-                if FULLSCREEN_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
-                    fullscreen_option()
-                if INFO_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
-                    infopage()
+                if SCOOTER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    sduck()
+                if SUICIDE_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    sniper()
+                if TRAPPER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    peashoot()
+                if TOBI_8_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    zitgun()
+                if SWEEPER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    tracker()
+                if SHANNON_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    wallbomb()
         pygame.display.update()
 
 
-def start_screen():
-    running = True
-    while running:
-        screen.fill('black')
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
-        pygame.display.update()
+def sduck():
+    pass
        
+def sniper():
+    pass
+
+def peashoot():
+    pass
+
+def zitgun():
+    pass
+
+def tracker():
+    pass
+
+def wallbomb():
+    pass
 # MAIN ****************************************************************************************
 while running:
     if home_page:
