@@ -1,7 +1,8 @@
 #New ATLock File
 import sys
 import random
-import os.path as os
+import os
+import os.path
 from datetime import date
 
 lock_type = 3
@@ -32,12 +33,11 @@ def encode(s):
             #if(s[i] < " " or s[i] > '~'):  #Not exactly correct but those represent the printable ASCII lowest and highest characters\
             if(ord(s[i]) < 31 or ord(s[i]) > 128):
                 s[i] = " "
-
             this_dat = ord(s[i]) & 15
             #s[i] = s[i] ^ (lock_code[lock_pos] ^ lock_dat) + 1 
             s[i] = chr((ord(s[i]) ^ (ord(lock_code[lock_pos]) ^ lock_dat)) + 1)
             lock_dat = this_dat
-        encode = s          
+    encode = s          
     
 def prepare(s, s1):
     i, j, k, l = 0 #Ints
@@ -53,9 +53,11 @@ def prepare(s, s1):
             if(s1[i] == ';'):
                 k = i
         if(k > 0):
-            s1 = len(s1, k - 1) 
-    
-    s2 = " "  #Remove excess space
+            #s1 = len(s1, k - 1) 
+            s1.lstrip(k - 1)
+            
+    #Remove excess space        
+    s2 = " " 
     i = 1
     for i in len(s1):
         if(s1.isspace() == False and s1[i] != ','):  #Condition is not (s1[i] in [' ',#8,#9,#10,','])
@@ -74,7 +76,6 @@ def write_line(s, s1):
     if(len(s) > 0):
         s = encode(s)
         f2.write(s)
-        #print(f2, s)
     
 def main():
     lock_pos = 0
@@ -88,7 +89,7 @@ def main():
     
     fn1 = str.strip(str.upper(sys.argv[1]))  
         
-    if(fn1 == os.basename(fn1)):   #base_name grabs the part of a file before the .atr portion
+    if(fn1 == os.path.basename(fn1)):   #base_name grabs the part of a file before the .atr portion
         fn1 = fn1 + ".AT2"  
     
     if(fn1 == None):
@@ -98,9 +99,9 @@ def main():
     if(len(sys.argv) == 2):
         fn2 = str.strip(str.upper(sys.argv[2]))
     else:
-        fn2 = os.basename(fn1) + ".ATL"
+        fn2 = os.path.basename(fn1) + ".ATL"
         
-    if(fn2 == os.basename(fn2)):
+    if(fn2 == os.path.basename(fn2)):
         fn2 = fn2 + ".ATL"
     
     if(fn2 != False):
@@ -110,14 +111,17 @@ def main():
     if(fn1 == fn2):
         print("Filenames cannot be the same!")
         exit(0)
-        
+    
+    os.rename(f1, fn1)
+    os.rename(f2, fn2)
+    
     #Copying comment header
     
     f2.write(";------------------------------------------------------------------------------")
     s = " "
     
-    while s == " " and not f1:
-        f1.readline()
+    while s == " " and not f1: 
+        s = f1.readline()
         s = str.strip(s)       
         if(s[1] == ';'):
             f2.write(s)
@@ -125,7 +129,7 @@ def main():
             
     #lock header
     today = date.today()
-    barePath = os.split(os.basename(fn1))
+    barePath = os.path.split(os.path.basename(fn1))
     f2.write(";------------------------------------------------------------------------------")  
     f2.write('; ', barePath[1], 'Locked on ', today)   #no_path(base_name(fn1)),  #no_path removes path before file name
     f2.write(";------------------------------------------------------------------------------")  
@@ -146,14 +150,13 @@ def main():
     f2.write("Encoding \"" , fn1, "\"...")
     
     #encode robot
-    
     s = str.strip(s)     
     
     if(len(s) > 0):
         write_line(" ", str.upper(s))
     
     while not f1:
-        f1.readline()
+        s1 = f1.readline()
         s = " "
         s1 = str.strip(str.upper(s)) 
         write_line(s, s1)
