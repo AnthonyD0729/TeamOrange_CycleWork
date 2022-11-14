@@ -9,7 +9,6 @@
 #    print("for they seek only to cause suffering as far as their arms can reach.")
 #    print("The only remedy for my fellow man is to accept imminent demise...")
 #    print("...or to end it all before the suffering begins.")
-#    print("Recall my words when the End begins.")
 
 from turtle import update
 import pygame
@@ -36,9 +35,11 @@ pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
 pygame.display.set_caption("I like to see you wiggle, wiggle, for sure")
 GREY = (76,81,83)
 
-
-speed = 1
-angle = 45
+MAXSPEED = 2
+newspeed = 0
+speed = 0
+newangle = 90
+angle = 0
 currLoc = 0
 
 # Tank class
@@ -54,6 +55,7 @@ class Tank(pygame.sprite.Sprite):
     # Moves the tank using vector
     def update(self):
         global currLoc
+        global angle
         self.dir = angle
         self.vel = vec( math.cos(math.radians(self.dir))*speed,
                         math.sin(math.radians(self.dir))*speed)
@@ -75,12 +77,17 @@ class Tank(pygame.sprite.Sprite):
 
     def rotate(self):
         global angle
-        angle += random.randint(-6, 6)
-        if angle > 360:
-            angle -= 360
-        if angle < 0:
-            angle += 360
+        if newangle != angle:
+            angle += 1 #random.randint(-6, 6)
+            if angle > 360:
+                angle -= 360
+            if angle < 0:
+                angle += 360
 
+    def throttle(self):
+        global speed
+        if speed < MAXSPEED:
+            speed += MAXSPEED/60
 
 
 all_sprites = pygame.sprite.Group()
@@ -94,9 +101,10 @@ while running:
         if event.type==pygame.QUIT:
             running = False
 
-    screen.fill(GREY)
+
     all_sprites.update()
     Tank().boundarycheck()
+    Tank().throttle()
     Tank().rotate()
 
     screen.fill(GREY)
