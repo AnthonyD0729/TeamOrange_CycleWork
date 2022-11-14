@@ -111,15 +111,13 @@ def main():
         print("Filenames cannot be the same!")
         exit(0)
         
-
-    
     #Copying comment header
     
     f2.write(";------------------------------------------------------------------------------")
     s = " "
     
     while s == " " and not f1:
-        s = f1.readline()
+        f1.readline()
         s = str.strip(s)       
         if(s[1] == ';'):
             f2.write(s)
@@ -155,7 +153,7 @@ def main():
         write_line(" ", str.upper(s))
     
     while not f1:
-        s1 = f1.readline()
+        f1.readline()
         s = " "
         s1 = str.strip(str.upper(s)) 
         write_line(s, s1)

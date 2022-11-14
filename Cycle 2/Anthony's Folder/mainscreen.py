@@ -9,7 +9,7 @@ from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
 from dropselect import DropSelect
-#from tkinter import *
+from typing import Tuple, Any, Optional, List
 import random
 
 #allows us to use pygame features
@@ -106,8 +106,8 @@ CONTROLS_BUTTON = Button(None, pos=(1100,180), text_input=("CONTROLS"),font= get
 
 RESUME_BUTTON = Button(None, pos= (1100,660), text_input = ("RESUME"), font=get_font(75), base_color="Black", hovering_color="Green")
 
-VIDEO_BUTTON = Button(None, pos=(1100, 340),
-                        text_input="VIDEO", font=get_font(50), base_color="Black", hovering_color="Black")
+FUN_BUTTON = Button(None, pos=(1100, 340),
+                        text_input="FUN", font=get_font(50), base_color="Black", hovering_color="Black")
 
 PAUSE_BUTTON = Button(back_rect, pos=(1100,0), text_input=None, font=get_font(75), base_color="Black",hovering_color="Green")
 
@@ -121,12 +121,77 @@ MEDIUM_BUTTON = Button(None, pos=(175,340), text_input="MEDIUM", font=get_font(5
 
 HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), base_color="Black", hovering_color="Green")
 
-PLUS_BUTTON = Button(plus_img, pos=(175,340), text_input="Add", font=get_font(10), base_color='Green', hovering_color=None )
-# Defintions ***************************************************************************************************************************************
+SITTING_DUCK_BUTTON = Button(None, pos=(450,200), text_input="SDUCK", font=get_font(50), base_color="White", hovering_color="Green")
 
-def draw_text(text,font, text_col,x,y):
-    img = font.render(text,True, text_col)
-    screen.blit(img,(x,y))
+SNIPER_BUTTON = Button(None, pos=(450,400), text_input="SNIPER", font=get_font(50), base_color="White", hovering_color="Green")
+
+PEASHOOT_BUTTON = Button(None, pos=(450,600), text_input="PEASHOOT", font=get_font(50), base_color="White", hovering_color="Green")
+
+ZITGUN_BUTTON = Button(None, pos=(900,200), text_input="ZITGUN", font=get_font(50), base_color="White", hovering_color="Green")
+
+TRACKER_BUTTON = Button(None, pos=(900,400), text_input="TRACKER", font=get_font(50), base_color="White", hovering_color="Green")
+
+WALLBOMB_BUTTON = Button(None, pos=(900,600), text_input="WALLBOMB", font=get_font(50), base_color="White", hovering_color="Green")
+
+CIRCLES_BUTTON = Button(None, pos=(175,340), text_input="CIRCLES", font=get_font(50), base_color="White", hovering_color="Green")
+
+GLADYS_BUTTON = Button(None, pos=(175,340), text_input="GLADYS", font=get_font(50), base_color="White", hovering_color="Green")
+
+INDIRECT_BUTTON = Button(None, pos=(175,340), text_input="INDIRECT", font=get_font(50), base_color="White", hovering_color="Green")
+
+MOSQUITO_BUTTON = Button(None, pos=(175,340), text_input="MOSQUITO", font=get_font(50), base_color="White", hovering_color="Green")
+
+OVERHEAT_BUTTON = Button(None, pos=(175,340), text_input="OVERHEAT", font=get_font(50), base_color="White", hovering_color="Green")
+
+RAMMER_BUTTON = Button(None, pos=(175,340), text_input="RAMMER", font=get_font(50), base_color="White", hovering_color="Green")
+
+SCOOTER_BUTTON = Button(None, pos=(175,340), text_input="SCOOTER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SUICIDE_BUTTON = Button(None, pos=(175,340), text_input="SUICIDE", font=get_font(50), base_color="Black", hovering_color="Green")
+
+TRAPPER_BUTTON = Button(None, pos=(175,340), text_input="TRAPPER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+TOBI_8_BUTTON = Button(None, pos=(175,340), text_input="TOBI-8", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SWEEPER_BUTTON = Button(None, pos=(175,340), text_input="SWEEPER", font=get_font(50), base_color="Black", hovering_color="Green")
+
+SHANNON_BUTTON = Button(None, pos=(175,340), text_input="SHANNON", font=get_font(50), base_color="Black", hovering_color="Green")
+# Classes ****************************************************************************
+class Player(pygame.sprite.Sprite):
+	def __init__(self, pos_x, pos_y):
+		super().__init__()
+		self.attack_animation = False
+		self.sprites = []
+		self.sprites.append(pygame.image.load('images/attack_1.png'))
+		self.sprites.append(pygame.image.load('images/attack_2.png'))
+		self.sprites.append(pygame.image.load('images/attack_3.png'))
+		self.sprites.append(pygame.image.load('images/attack_4.png'))
+		self.sprites.append(pygame.image.load('images/attack_5.png'))
+		self.sprites.append(pygame.image.load('images/attack_6.png'))
+		self.sprites.append(pygame.image.load('images/attack_7.png'))
+		self.sprites.append(pygame.image.load('images/attack_8.png'))
+		self.sprites.append(pygame.image.load('images/attack_9.png'))
+		self.sprites.append(pygame.image.load('images/attack_10.png'))
+		self.current_sprite = 0
+		self.image = self.sprites[self.current_sprite]
+
+		self.rect = self.image.get_rect()
+		self.rect.topleft = [pos_x,pos_y]
+
+	def attack(self):
+		self.attack_animation = True
+
+	def update(self,speed):
+		if self.attack_animation == True:
+			self.current_sprite += speed
+			if int(self.current_sprite) >= len(self.sprites):
+				self.current_sprite = 0
+				self.attack_animation = False
+
+		self.image = self.sprites[int(self.current_sprite)]
+
+
+# Defintions ***************************************************************************************************************************************
 
 def options():
     sound_on = True
@@ -146,7 +211,7 @@ def options():
         FULLSCREEN_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         INFO_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         CONTROLS_BUTTON.changeColor(OPTIONS_MOUSE_POS)
-        for button in [SOUND_BUTTON, VIDEO_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
+        for button in [SOUND_BUTTON, FUN_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
             button.changeColor(OPTIONS_MOUSE_POS)
             button.update(screen)
         BACK_BUTTON.update(screen)
@@ -166,8 +231,8 @@ def options():
                         pygame.mixer.music.play(loops=-1)
                     else:
                         pygame .mixer.music.stop()
-                if VIDEO_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
-                    print("Video Settings")
+                if FUN_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+                    funscreen()
                 if CONTROLS_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
                     controlspage()
                 if FULLSCREEN_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
@@ -193,7 +258,7 @@ def pausescreen():
         CONTROLS_BUTTON.changeColor(PAUSE_MOUSE_POS)
         FULLSCREEN_BUTTON.changeColor(PAUSE_MOUSE_POS)
         INFO_BUTTON.changeColor(PAUSE_MOUSE_POS)
-        for button in [SOUND_BUTTON, RESUME_BUTTON, VIDEO_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
+        for button in [SOUND_BUTTON, RESUME_BUTTON, FUN_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
             button.changeColor(PAUSE_MOUSE_POS)
             button.update(screen)
         RESUME_BUTTON.update(screen)
@@ -216,8 +281,8 @@ def pausescreen():
                         pygame.mixer.music.play(loops=-1)
                     else:
                             pygame.mixer.music.stop()
-                if VIDEO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                    print("Video Settings")
+                if FUN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                    funscreen()
                 if CONTROLS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     controlspage()
                 if FULLSCREEN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
@@ -328,89 +393,435 @@ def fullscreen_option():
         clock.tick(60)
 
 def easyscreen():
-    all_sprites = pygame.sprite.Group()
-    all_sprites.add(Tank())
-    angle = 45
     running = True
     while running:
-        screen.fill('black')
-        #screen.blit(bg, (0,0))
-        all_sprites.update()
-        Tank().boundarycheck()
-        all_sprites.draw(screen)
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
-        pygame.display.update()
-        rand = random.randint(-6, 6)
-        angle += rand
-        if angle > 360:
-            angle -= 360
-        if angle < 0:
-            angle += 360
+        screen.fill('orange')
+        EASYSCREEN_MOUSE_POS = pygame.mouse.get_pos()
 
-    clock.tick(FPS)
-
-def mediumscreen():
-    #running = True
-    screen.fill('black')
-    running = True
-    while running:
-
-        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
-
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False
-                pygame.quit() 
-                quit()
         
+        SITTING_DUCK_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        SNIPER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        PEASHOOT_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        ZITGUN_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        TRACKER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        WALLBOMB_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON, BACK_BUTTON]:
+            button.changeColor(EASYSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    return
+                if SITTING_DUCK_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    sduck()
+                if SNIPER_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    sniper()
+                if PEASHOOT_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    peashoot()
+                if ZITGUN_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    zitgun()
+                if TRACKER_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    tracker()
+                if WALLBOMB_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    wallbomb()
         pygame.display.update()
 
-def robot_options():
-    pass
+def mediumscreen():
+    running = True
+    while running:
+        screen.fill('orange')
+        MEDIUMSCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
+        SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
+        screen.blit(SCREEN_TEXT, SCREEN_RECT)
+        
+        CIRCLES_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        GLADYS_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        INDIRECT_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        MOSQUITO_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        OVERHEAT_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        RAMMER_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(MEDIUMSCREEN_MOUSE_POS)
+        for button in [CIRCLES_BUTTON,GLADYS_BUTTON,INDIRECT_BUTTON,MOSQUITO_BUTTON,OVERHEAT_BUTTON,RAMMER_BUTTON, BACK_BUTTON]:
+            button.changeColor(MEDIUMSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    return
+                if CIRCLES_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    circles()
+                if GLADYS_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    gladys()
+                if INDIRECT_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    indirect()
+                if MOSQUITO_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    mosquito()
+                if OVERHEAT_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    overheat()
+                if RAMMER_BUTTON.checkForInput(MEDIUMSCREEN_MOUSE_POS):
+                    rammer()
+        pygame.display.update()
+
+
 
 def hardscreen():
     running = True
-    HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
-
     while running:
-        screen.fill('black')
+        screen.fill('orange')
+        HARDSCREEN_MOUSE_POS = pygame.mouse.get_pos()
 
-        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR BOTS:", True, "White")
+        SCREEN_TEXT = get_font(75).render("CHOOSE YOUR OPPONENT:", True, "White")
         SCREEN_RECT = SCREEN_TEXT.get_rect(center=(640, 30))
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
-        BOT1 = DropSelect(title= "CPUs", items=[('Tank Bot', 'Mine Bot')], dropselect_id= '1', onchange= None, onreturn= None, onselect= None, open_middle= False, placeholder= ' ', placeholder_add_to_selection_box= True, selection_box_bgcolor= (255,255,255), selection_box_border_color= (50,50,50))
         
+        SCOOTER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SUICIDE_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        TRAPPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        TOBI_8_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SWEEPER_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        SHANNON_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        BACK_BUTTON.changeColor(HARDSCREEN_MOUSE_POS)
+        for button in [SCOOTER_BUTTON,SUICIDE_BUTTON,TRACKER_BUTTON,TOBI_8_BUTTON,SWEEPER_BUTTON,SHANNON_BUTTON, BACK_BUTTON]:
+            button.changeColor(HARDSCREEN_MOUSE_POS)
+            button.update(screen)
+        BACK_BUTTON.update(screen)
         
-        
-        
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
-                quit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                    BOT1._font_shadow_color = 'green'
-                    
+                if BACK_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    return
+                if SCOOTER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    scooter()
+                if SUICIDE_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    suicide()
+                if TRAPPER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    trapper()
+                if TOBI_8_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    tobi8()
+                if SWEEPER_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    sweeper()
+                if SHANNON_BUTTON.checkForInput(HARDSCREEN_MOUSE_POS):
+                    shannon()
         pygame.display.update()
 
 
-def start_screen():
-    running = True
-    while running:
+def sduck():
+    run = True
+    while run:
+
         screen.fill('black')
-        for event in pygame.event.get():  
-            if event.type == pygame.QUIT: 
-                running = False    
-                pygame.quit() 
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
         pygame.display.update()
        
+def sniper():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def peashoot():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def zitgun():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def tracker():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def wallbomb():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def circles():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def gladys():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def indirect():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def mosquito():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def overheat():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def rammer():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def scooter():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def suicide():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def trapper():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def tobi8():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def sweeper():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+def shannon():
+    run = True
+    while run:
+
+        screen.fill('black')
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    return
+
+        pygame.display.update()
+
+
+def funscreen():
+    moving_sprites = pygame.sprite.Group()
+    player = Player(100,100)
+    moving_sprites.add(player)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                player.attack()
+
+        # Drawing
+        screen.fill((0,0,0))
+        moving_sprites.draw(screen)
+        moving_sprites.update(0.25)
+        pygame.display.flip()
+        clock.tick(60)
 # MAIN ****************************************************************************************
 while running:
     if home_page:
