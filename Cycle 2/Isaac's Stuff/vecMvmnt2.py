@@ -38,7 +38,7 @@ GREY = (76,81,83)
 MAXSPEED = 4
 newspeed = 0
 speed = 0
-#newangle = 90
+newangle = 0
 angle = 0
 currLoc = 0
 currThrot = 0
@@ -68,6 +68,11 @@ class Tank(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.ogim, -angle-90)
         self.rect = self.image.get_rect(center=self.rect.center)      
 
+        # TEMP
+        screen.fill(GREY)
+        all_sprites.draw(screen)
+        pygame.display.update()
+        tickrate.tick(FPS)
 
     def boundarycheck(self):
         global currLoc
@@ -80,24 +85,35 @@ class Tank(pygame.sprite.Sprite):
     def turn(self, rotate):
         global angle
         global currAngle
-        currAngle=currAngle+rotate
+        currAngle = currAngle+rotate
         self.rotate = rotate
-        if self.rotate+angle != currAngle:
+        newangle = angle+self.rotate
+        if newangle != currAngle:
             angle += 1 #random.randint(-6, 6)
             if angle > 360:
                 angle -= 360
             if angle < 0:
                 angle += 360
 
+
     def throttle(self, throt):
         global speed
-        self.throt = throt/100
-        if speed < MAXSPEED * self.throt:
-            speed += MAXSPEED/60
+        global currThrot
+        global all_sprites
+        currThrot = throt
+        self.throt = throt
+        # Make sure throttle is between 0-100
+        if self.throt < 0:
+            self.throt = 0
+        if self.throt > 100:
+            self.throt = 100
+        # Acceleration loop (bad time)
+        while speed < MAXSPEED * self.throt/100:
+            speed += MAXSPEED/FPS
+            all_sprites.update()
 
 
-    def wait(self, time):
-        print('mama')
+
 all_sprites = pygame.sprite.Group()
 all_sprites.add(Tank())
  
@@ -110,17 +126,9 @@ while running:
             running = False
 
 
-    all_sprites.update()
-    Tank().boundarycheck()
+
     Tank().throttle(100)
-    #Tank().turn(90)
-
-    screen.fill(GREY)
-    all_sprites.draw(screen)
-    pygame.display.update()
-
-    # ATROBOT tank "program"
-
-
-
-    tickrate.tick(FPS)
+    Tank().turn(30)
+    Tank().boundarycheck()
+    all_sprites.update()
+    print(currThrot)
