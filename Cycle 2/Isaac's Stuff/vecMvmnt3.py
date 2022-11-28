@@ -32,25 +32,24 @@ screenHeight = 600
 # Displays the window
 screen = pygame.display.set_mode((screenWidth,screenHeight), 0, 32)
 pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
-pygame.display.set_caption("I like to see you wiggle, wiggle, for sure")
+pygame.display.set_caption("who made this lol")
 GREY = (76,81,83)
 
 MAXSPEED = 4
 newspeed = 0
 speed = 0
-#newangle = 90
+oldangle = 0
 angle = 0
 currLoc = 0
 currThrot = 0
-currAngle = 0
-throt = 100
-turn = 90
+throt = 0
+turn = 0
 
 # Tank class
 class Tank(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/OrangeSprite.png")
+        self.image = pygame.image.load("images/OrangeTank.png")
         self.ogim = self.image
         self.position = vec(screenWidth/2, screenHeight/2)
         self.rect = self.image.get_rect(center=self.position)
@@ -60,6 +59,8 @@ class Tank(pygame.sprite.Sprite):
     def update(self):
         global currLoc
         global angle
+        global speed
+        global throt
         self.dir = angle
         self.vel = vec( math.cos(math.radians(self.dir))*speed,
                         math.sin(math.radians(self.dir))*speed)
@@ -70,6 +71,24 @@ class Tank(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.ogim, -angle-90)
         self.rect = self.image.get_rect(center=self.rect.center)      
 
+        if speed < MAXSPEED * throt/100:
+            speed += MAXSPEED/60
+        if speed > MAXSPEED:
+            speed = MAXSPEED
+
+        if angle > turn:
+            angle -= 2
+            #print(angle)
+        if angle < turn:
+            angle += 2
+            #print("poop")
+        # keep angle within 0-360
+        if angle > 360:
+            angle -= 360
+        if angle < 0:
+            angle += 360
+        
+    
 
     def boundarycheck(self):
         global currLoc
@@ -79,22 +98,13 @@ class Tank(pygame.sprite.Sprite):
             pygame.time.wait(200)
             angle += 180
 
-    def turn(self):
-        global angle
-        newangle = turn
-        if angle != newangle:
-            angle += 1 #random.randint(-6, 6)
-            if angle > 360:
-                angle -= 360
-            if angle < 0:
-                angle += 360
+    def turn(self, turn_input):
+        global turn
+        turn = turn_input
 
-    def throttle(self):
-        global speed
+    def throttle(self, throt_input):
         global throt
-        self.throt = throt/100
-        if speed < MAXSPEED * self.throt:
-            speed += MAXSPEED/60
+        throt = throt_input
 
 
     def wait(self, time):
@@ -115,8 +125,8 @@ while running:
 
     all_sprites.update()
     Tank().boundarycheck()
-    Tank().throttle()
-    Tank().turn()
+    Tank().throttle(100)
+    Tank().turn(200)
 
     screen.fill(GREY)
     all_sprites.draw(screen)

@@ -40,7 +40,7 @@ startPos = endPos       #Set endPos to currLoc.
 class Tank(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("OrangeSprite.png")      #Load the sprite image.
+        self.image = pygame.image.load("images/OrangeSprite.png")      #Load the sprite image.
         self.ogim = self.image                                  #Load the sprite image into self.ogim.
         self.position = vec(x1, y1)                             #Place the sprite at x1, y1.
         self.rect = self.image.get_rect(center=self.position)   #Center the sprite at x1, y1.
@@ -65,7 +65,7 @@ class Tank(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("bulletScale.png")       #Load the sprite image.
+        self.image = pygame.image.load("images/bulletScale.png")       #Load the sprite image.
         self.ogim = self.image                                  #Load the sprite image into self.ogim.
         self.position = vec(x1, y1)                             #Place the sprite at x1, y1.
         self.rect = self.image.get_rect(center=self.position)   #Center the sprite at x1, y1.
@@ -94,7 +94,7 @@ class Target(pygame.sprite.Sprite):
     def __init__(self):
         global speedBull, currLoc, startPos, bullPos, detectX, detectY
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("BlueSprite.png")       #Load the sprite image.
+        self.image = pygame.image.load("images/BlueSprite.png")       #Load the sprite image.
         self.blueSprite = self.image
         self.ogim = self.image                                  #Load the sprite image into self.ogim.
         self.position = vec(bullX, bullY)                             #Place the sprite at x1, y1.
@@ -104,8 +104,8 @@ class Target(pygame.sprite.Sprite):
     # Move the SPRITE------------------------------------------------------------------ # 
     def update(self):
         global all_bullets, all_targets, bullImage
-        if (pygame.sprite.spritecollide(bullImage, all_targets, False)): #If the sprite is at the end of the vector...
-            print("Oh no or whatever.")
+        #if (pygame.sprite.spritecollide(bullImage, all_targets, False)): #If the sprite is at the end of the vector...
+        #    print("Oh no or whatever.")
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(Tank())
