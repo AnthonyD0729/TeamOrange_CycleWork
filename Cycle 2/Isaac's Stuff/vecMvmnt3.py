@@ -53,7 +53,7 @@ class Tank(pygame.sprite.Sprite):
         self.ogim = self.image
         self.position = vec(screenWidth/2, screenHeight/2)
         self.rect = self.image.get_rect(center=self.position)
-        
+
 
     # Moves the tank using vector
     def update(self):
@@ -113,7 +113,7 @@ class Tank(pygame.sprite.Sprite):
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(Tank())
- 
+
 running = True
 while running:
 
