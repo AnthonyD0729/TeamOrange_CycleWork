@@ -283,7 +283,7 @@ def pausescreen():
                 if FUN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     funscreen()
                 if CONTROLS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                    controlspage()
+                    controlspage
                 if FULLSCREEN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     fullscreen_option()
                 if INFO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
@@ -328,13 +328,14 @@ def controlspage():
                     actions['Start'] = False
                 if event.key == control_handler.controls['Action1']:
                     actions['Action 1'] = False
-        
+
         control_handler.update(actions)
         canvas.fill((135,206,235))
         control_handler.render(canvas)
         screen.blit(pygame.transform.scale(canvas, (SCREEN_WIDTH*2.7, SCREEN_HEIGHT*2.7)), (0,0))
         pygame.display.update()
         reset_keys(actions)
+
 
 def infopage():
     run = True
