@@ -912,6 +912,10 @@ while running:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    pregamescreen = False
+                    home_page = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     easyscreen()
