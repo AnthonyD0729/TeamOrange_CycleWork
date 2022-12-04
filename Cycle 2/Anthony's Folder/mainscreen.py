@@ -914,7 +914,6 @@ while running:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.checkForInput(PREGAME_MOUSE_POS):
-                    pregamescreen = False
                     easyscreen()
                 if MEDIUM_BUTTON.checkForInput(PREGAME_MOUSE_POS):
                     mediumscreen()
