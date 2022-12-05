@@ -1,5 +1,9 @@
 #THIS IS THE ONE!!!
+<<<<<<< HEAD
 #hi anthony
+=======
+#hi Kevin!!!!
+>>>>>>> 1baa3c19c2bcfbed2aae5d62d2bd3a20b2a2b0df
 
 
 import random
