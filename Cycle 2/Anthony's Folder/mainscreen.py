@@ -157,7 +157,8 @@ def options():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
@@ -206,12 +207,12 @@ def pausescreen():
         #check if game is paused
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-                exit()
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
-                    exit()
+                    pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if RESUME_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     return
@@ -238,10 +239,12 @@ def controlspage():
         screen.fill('orange')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-                exit()
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    running = False
+                if event.key == pygame.K_b:
                     running = False
                 if event.key == control_handler.controls['Left']:
                     actions['Left'] = True
@@ -271,7 +274,7 @@ def controlspage():
                     actions['Action 1'] = False
 
         control_handler.update(actions)
-        canvas.fill((135,206,235))
+        canvas.fill(('orange'))
         control_handler.render(canvas)
         screen.blit(pygame.transform.scale(canvas, (SCREEN_WIDTH*2.7, SCREEN_HEIGHT*2.7)), (0,0))
         pygame.display.update()
@@ -293,7 +296,8 @@ def infopage():
         screen.blit(INFO_TEXT, INFO_RECT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b:
                     return
@@ -355,7 +359,8 @@ def easyscreen():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
@@ -445,7 +450,8 @@ def hardscreen():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
