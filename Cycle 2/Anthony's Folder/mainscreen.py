@@ -99,20 +99,20 @@ PLAY_BUTTON = Button(play_rect, pos=(640, 250),
 
 BACK_BUTTON = Button(None, pos=(1100, 660), text_input="BACK", font=get_font(50), base_color="white", hovering_color="Green")
 
-SOUND_BUTTON = Button(None, pos=(450,400), text_input="SOUND", font=get_font(50), base_color= "white", hovering_color="Green")
+SOUND_BUTTON = Button(None, pos=(200,400), text_input="SOUND", font=get_font(50), base_color= "white", hovering_color="Green")
 
 CONTROLS_BUTTON = Button(None, pos=(1100,180), text_input=("CONTROLS"),font= get_font(50), base_color="white", hovering_color="Green")
 
 RESUME_BUTTON = Button(None, pos= (1100,660), text_input = ("RESUME"), font=get_font(75), base_color="Black", hovering_color="Green")
 
-FUN_BUTTON = Button(None, pos=(900, 400),
-                        text_input="FUN", font=get_font(50), base_color="white", hovering_color="Black")
+FUN_BUTTON = Button(None, pos=(1100, 400),
+                        text_input="FUN", font=get_font(50), base_color="white", hovering_color="Green")
 
 PAUSE_BUTTON = Button(back_rect, pos=(1100,0), text_input=None, font=get_font(75), base_color="Black",hovering_color="Green")
 
-FULLSCREEN_BUTTON = Button(None, pos=(175,180), text_input="Fullscreen", font=get_font(50), base_color="white", hovering_color="Green")
+FULLSCREEN_BUTTON = Button(None, pos=(200,180), text_input="Fullscreen", font=get_font(50), base_color="white", hovering_color="Green")
 
-INFO_BUTTON = Button(None, pos=(175,660), text_input="INFO", font=get_font(50), base_color="white", hovering_color="Green")
+INFO_BUTTON = Button(None, pos=(200,660), text_input="INFO", font=get_font(50), base_color="white", hovering_color="Green")
 
 EASY_BUTTON = Button(None, pos=(175,340), text_input="EASY", font=get_font(50), base_color="white", hovering_color="Green")
 
@@ -835,23 +835,7 @@ def shannon():
 
 
 def funscreen():
-    moving_sprites = pygame.sprite.Group()
-    player = Player(100,100)
-    moving_sprites.add(player)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                player.attack()
-
-        # Drawing
-        screen.fill((0,0,0))
-        moving_sprites.draw(screen)
-        moving_sprites.update(0.25)
-        pygame.display.flip()
-        clock.tick(60)
+    pygame.quit()
 # MAIN ****************************************************************************************
 while running:
     if home_page:
