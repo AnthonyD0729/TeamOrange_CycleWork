@@ -40,6 +40,7 @@ while running:
 
     pygame.display.update()
     # pooper
+    # holy canoli
 
 
     tickrate.tick(FPS)
