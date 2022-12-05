@@ -198,7 +198,6 @@ def pausescreen():
         SOUND_BUTTON.changeColor(PAUSE_MOUSE_POS)
         CONTROLS_BUTTON.changeColor(PAUSE_MOUSE_POS)
         FULLSCREEN_BUTTON.changeColor(PAUSE_MOUSE_POS)
-        INFO_BUTTON.changeColor(PAUSE_MOUSE_POS)
         for button in [SOUND_BUTTON, RESUME_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON]:
             button.changeColor(PAUSE_MOUSE_POS)
             button.update(screen)
