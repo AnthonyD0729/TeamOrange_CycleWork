@@ -56,7 +56,7 @@ yellow = pygame.image.load("images/YellowSprite.png")
 play_rect = pygame.image.load("images/Play Rect.png")
 option_rect = pygame.image.load("images/Options Rect.png")
 quit_rect = pygame.image.load("images/Quit Rect.png")
-
+confer = pygame.image.load("images/confer.png")
 
 #Buttons ***********************************************************************
 GAME_BUTTON = Button(play_rect, pos=(640, 250),
@@ -142,6 +142,8 @@ def options():
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 60))
         screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
+        screen.blit(confer, (500,300))
+
         BACK_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         SOUND_BUTTON.changeColor(OPTIONS_MOUSE_POS)
         CONTROLS_BUTTON.changeColor(OPTIONS_MOUSE_POS)
@@ -190,6 +192,7 @@ def pausescreen():
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 30))
         screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
+    
         RESUME_BUTTON.changeColor(PAUSE_MOUSE_POS)
         SOUND_BUTTON.changeColor(PAUSE_MOUSE_POS)
         CONTROLS_BUTTON.changeColor(PAUSE_MOUSE_POS)
@@ -221,7 +224,7 @@ def pausescreen():
                 if FUN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     funscreen()
                 if CONTROLS_BUTTON.checkForInput(PAUSE_MOUSE_POS):
-                    controlspage
+                    controlspage()
                 if FULLSCREEN_BUTTON.checkForInput(PAUSE_MOUSE_POS):
                     fullscreen_option()
                 if INFO_BUTTON.checkForInput(PAUSE_MOUSE_POS):
