@@ -39,7 +39,7 @@ while running:
     all_sprites.draw(screen)
 
     pygame.display.update()
-
+    # pooper
 
 
     tickrate.tick(FPS)
