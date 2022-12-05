@@ -1,6 +1,4 @@
 import pygame
-
-
 pygame.init()
 
 xUnits = 600
@@ -18,4 +16,4 @@ while loopCon:
     screen.fill((74, 65, 42))   #Refill the screen with the background after the square has moved
     pygame.draw.line(screen, [255, 0, 0], [0, 0], [xUnits/2, yUnits/2], 1)
     pygame.display.flip()       #Update the entire display surface to the computer screen
-#screen.blit()
+
