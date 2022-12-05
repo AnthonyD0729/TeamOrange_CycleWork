@@ -7,7 +7,7 @@ import tankclass
 pygame.init()
 
 # Set the game's tick speed
-FPS = 60
+FPS = 30
 tickrate = pygame.time.Clock()
 
 # Sets screen size
@@ -21,9 +21,9 @@ pygame.display.set_caption("oh brother")
 GREY = (76,81,83)
 
 
-tank = tankclass.Tank(100, 100)
-allsprites = pygame.sprite.Group
-allsprites.add(testank())
+
+all_sprites = pygame.sprite.Group()
+all_sprites.add(tankclass.Tank(50,50))
 
 running = True
 while running:
@@ -35,10 +35,10 @@ while running:
 
 
     screen.fill(GREY)
-    allsprites.draw(screen)
-    pygame.display.update()
+    all_sprites.update()
+    all_sprites.draw(screen)
 
-    # ATROBOT tank "program"
+    pygame.display.update()
 
 
 
