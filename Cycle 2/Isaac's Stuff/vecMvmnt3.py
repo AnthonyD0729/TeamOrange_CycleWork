@@ -132,8 +132,6 @@ while running:
     all_sprites.draw(screen)
     pygame.display.update()
 
-    # ATROBOT tank "program"
-
 
 
     tickrate.tick(FPS)
