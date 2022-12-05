@@ -75,7 +75,7 @@ SOUND_BUTTON = Button(None, pos=(200,400), text_input="SOUND", font=get_font(50)
 
 CONTROLS_BUTTON = Button(None, pos=(1100,180), text_input=("CONTROLS"),font= get_font(50), base_color="white", hovering_color="Green")
 
-RESUME_BUTTON = Button(None, pos= (1100,660), text_input = ("RESUME"), font=get_font(75), base_color="Black", hovering_color="Green")
+RESUME_BUTTON = Button(None, pos= (1100,400), text_input = ("RESUME"), font=get_font(50), base_color="White", hovering_color="Green")
 
 FUN_BUTTON = Button(None, pos=(1100, 400),
                         text_input="FUN", font=get_font(50), base_color="white", hovering_color="Green")
@@ -199,7 +199,7 @@ def pausescreen():
         CONTROLS_BUTTON.changeColor(PAUSE_MOUSE_POS)
         FULLSCREEN_BUTTON.changeColor(PAUSE_MOUSE_POS)
         INFO_BUTTON.changeColor(PAUSE_MOUSE_POS)
-        for button in [SOUND_BUTTON, RESUME_BUTTON, FUN_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON, INFO_BUTTON]:
+        for button in [SOUND_BUTTON, RESUME_BUTTON, CONTROLS_BUTTON, FULLSCREEN_BUTTON]:
             button.changeColor(PAUSE_MOUSE_POS)
             button.update(screen)
         RESUME_BUTTON.update(screen)
@@ -783,6 +783,7 @@ def shannon():
 
 def funscreen():
     pygame.quit()
+    
 # MAIN ****************************************************************************************
 while running:
     if home_page:
