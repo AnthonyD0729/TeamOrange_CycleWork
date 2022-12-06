@@ -2,7 +2,7 @@
 import pygame,sys
 from button import Button
 from pygame.locals import *
-from turtle import update
+
 from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
