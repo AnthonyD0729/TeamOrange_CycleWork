@@ -1,6 +1,5 @@
 import pygame
-import testank
-import tankclass
+import backnforth, sduck
 
 
 
@@ -17,13 +16,15 @@ screenHeight = 600
 # Displays the window
 screen = pygame.display.set_mode((screenWidth,screenHeight), 0, 32)
 pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
-pygame.display.set_caption("oh brother")
+pygame.display.set_caption("Awesome Tank Robots") 
 GREY = (76,81,83)
 
 
+tank1 = backnforth.Tank(200,200)
+tank2 = sduck.Tank(400,400)
 
-all_sprites = pygame.sprite.Group()
-all_sprites.add(tankclass.Tank(50,50))
+tank_group = pygame.sprite.Group()
+tank_group.add(tank1,tank2)
 
 running = True
 while running:
@@ -34,13 +35,11 @@ while running:
             running = False
 
 
+    tank1.run()
+    tank2.run()
     screen.fill(GREY)
-    all_sprites.update()
-    all_sprites.draw(screen)
-
+    tank_group.draw(screen)
     pygame.display.update()
-    # pooper
-    # holy canoli
-
+ 
 
     tickrate.tick(FPS)
