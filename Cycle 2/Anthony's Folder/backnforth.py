@@ -18,7 +18,7 @@ speed = 0
 class Tank(pygame.sprite.Sprite):
     def __init__(self, xpos, ypos):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/GreenTank.png")
+        self.image = pygame.image.load("images/OrangeTank.png")
         self.ogimg = self.image
         self.position = vec(xpos, ypos)
         self.rect = self.image.get_rect(center=self.position)
@@ -62,11 +62,27 @@ class Tank(pygame.sprite.Sprite):
     def run(self):
 
         def start():
-            global setAngle, curAngle
-            if curAngle == 0 or curAngle == 360:
-                setAngle += 360
+            global setThrot
+            setThrot = 100
+
+        def whatdo():
+            global curLoc, setAngle, curAngle, setThrot
+            x, y = curLoc
+
+            if x > 1230:
+                setThrot = 0
+                setAngle = 180
+                if curAngle == 180:
+                    setThrot = 100
+            if x < 50:
+                setThrot = 0
+                setAngle = 0
+                if curAngle == 0:
+                    setThrot = 100
             
 
         start()
+
+        whatdo()
 
         Tank.update(self)

@@ -16,7 +16,7 @@ screenHeight = 600
 # Displays the window
 screen = pygame.display.set_mode((screenWidth,screenHeight), 0, 32)
 pygame.display.set_icon(pygame.image.load("images/OrangeIcon.png"))
-pygame.display.set_caption("Awesome Tank Robots") 
+pygame.display.set_caption("me when your mom")
 GREY = (76,81,83)
 
 

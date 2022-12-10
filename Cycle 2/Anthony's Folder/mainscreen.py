@@ -7,6 +7,7 @@ from util import load_save, reset_keys
 from controls import Controls_Handler
 from tank import Tank
 import random
+import backnforth, sduck
 
 #allows us to use pygame features
 pygame.init()
@@ -94,7 +95,7 @@ HARD_BUTTON = Button(None, pos=(175,340), text_input="HARD", font=get_font(50), 
 
 SITTING_DUCK_BUTTON = Button(None, pos=(450,200), text_input="SDUCK", font=get_font(50), base_color="White", hovering_color="Green")
 
-SNIPER_BUTTON = Button(None, pos=(450,400), text_input="SNIPER", font=get_font(50), base_color="White", hovering_color="Green")
+BACKNFORTH_BUTTON = Button(None, pos=(450,400), text_input="BACKNFORTH", font=get_font(50), base_color="White", hovering_color="Green")
 
 PEASHOOT_BUTTON = Button(None, pos=(450,600), text_input="PEASHOOT", font=get_font(50), base_color="White", hovering_color="Green")
 
@@ -348,12 +349,12 @@ def easyscreen():
         screen.blit(SCREEN_TEXT, SCREEN_RECT)
         
         SITTING_DUCK_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
-        SNIPER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
+        BACKNFORTH_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
         PEASHOOT_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
         ZITGUN_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
         TRACKER_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
         WALLBOMB_BUTTON.changeColor(EASYSCREEN_MOUSE_POS)
-        for button in [SITTING_DUCK_BUTTON, SNIPER_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON]:
+        for button in [SITTING_DUCK_BUTTON, BACKNFORTH_BUTTON, PEASHOOT_BUTTON, ZITGUN_BUTTON, TRACKER_BUTTON, WALLBOMB_BUTTON]:
             button.changeColor(EASYSCREEN_MOUSE_POS)
             button.update(screen)
         
@@ -369,9 +370,9 @@ def easyscreen():
                     return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if SITTING_DUCK_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
-                    sduck()
-                if SNIPER_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
-                    sniper()
+                    sduckBot()
+                if BACKNFORTH_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
+                    backnforthBot() # Added 'Bot' to the end because of conflicting names
                 if PEASHOOT_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
                     peashoot()
                 if ZITGUN_BUTTON.checkForInput(EASYSCREEN_MOUSE_POS):
@@ -474,11 +475,14 @@ def hardscreen():
         pygame.display.update()
 
 
-def sduck():
+def sduckBot():
+
+    tank = sduck.Tank(random.randint(0,SCREEN_WIDTH),random.randint(0,SCREEN_HEIGHT))
+    tank_group = pygame.sprite.Group()
+    tank_group.add(tank)
+
     run = True
     while run:
-
-        screen.fill('black')
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -489,13 +493,22 @@ def sduck():
                 if event.key == pygame.K_p:
                     pausescreen()
 
+        tank.run()
+        screen.fill('black')
+        tank_group.draw(screen)
+
         pygame.display.update()
+
+        clock.tick(FPS)
        
-def sniper():
+def backnforthBot():
+
+    tank = backnforth.Tank(random.randint(0,SCREEN_WIDTH),random.randint(0,SCREEN_HEIGHT))
+    tank_group = pygame.sprite.Group()
+    tank_group.add(tank)
+
     run = True
     while run:
-
-        screen.fill('black')
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -506,7 +519,13 @@ def sniper():
                 if event.key == pygame.K_p:
                     pausescreen()
 
+        tank.run()
+        screen.fill('black')
+        tank_group.draw(screen)
+
         pygame.display.update()
+
+        clock.tick(FPS)
 
 def peashoot():
     run = True
