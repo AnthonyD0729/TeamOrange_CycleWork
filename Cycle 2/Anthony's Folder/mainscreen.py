@@ -477,7 +477,7 @@ def hardscreen():
 
 def sduckBot():
 
-    tank = sduck.Tank(random.randint(0,SCREEN_WIDTH),random.randint(0,SCREEN_HEIGHT))
+    tank = sduck.Tank(random.randint(60,SCREEN_WIDTH-60),random.randint(60,SCREEN_HEIGHT-60))
     tank_group = pygame.sprite.Group()
     tank_group.add(tank)
 
@@ -503,7 +503,7 @@ def sduckBot():
        
 def backnforthBot():
 
-    tank = backnforth.Tank(random.randint(0,SCREEN_WIDTH),random.randint(0,SCREEN_HEIGHT))
+    tank = backnforth.Tank(random.randint(60,SCREEN_WIDTH-60),random.randint(60,SCREEN_HEIGHT-60))
     tank_group = pygame.sprite.Group()
     tank_group.add(tank)
 
